@@ -8,13 +8,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class OrganizationDto {
-    @JsonProperty("organizationId")
-    private Long organizationId;
-
-    @JsonProperty("name")
+public class OrganizationPostDto {
+    @JsonProperty(value = "name", required = true)
     private String name;
 
-    @JsonProperty("description")
+    @JsonProperty(value = "description", required = true)
     private String description;
 }

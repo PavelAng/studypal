@@ -22,4 +22,6 @@ public class Organization {
 
     @Column
     private String description;
+
+
 }
