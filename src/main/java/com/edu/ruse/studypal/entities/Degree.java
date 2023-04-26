@@ -6,19 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "organization")
-@Table(name = "organization")
-public class Organization {
-    @Column(name = "organization_id", nullable = false)
+@Entity(name = "degree")
+@Table(name = "degree")
+public class Degree {
+    @Column(name = "degree_id", nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long organizationId;
+    private Long degreeId;
 
     @Column
     private String name;
@@ -26,6 +24,7 @@ public class Organization {
     @Column
     private String description;
 
-    @OneToMany(targetEntity = Degree.class, mappedBy = "organization")
-    private List<Degree> degreeList;
+    @ManyToOne
+    @JoinColumn(name = "organization_id", nullable = false)
+    private Organization organization;
 }

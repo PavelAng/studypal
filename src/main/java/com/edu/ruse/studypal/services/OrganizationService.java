@@ -50,7 +50,7 @@ public class OrganizationService {
         return res;
     }
 
-    public OrganizationDto getOrganizationById(long id, int page) {
+    public OrganizationDto getOrganizationById(long id) {
         Optional<Organization> organization = organizationRepository.findById(id);
 
         if (organization.isEmpty()) {

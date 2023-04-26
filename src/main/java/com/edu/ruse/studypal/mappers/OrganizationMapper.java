@@ -4,9 +4,14 @@ import com.edu.ruse.studypal.dtos.OrganizationDto;
 import com.edu.ruse.studypal.dtos.OrganizationPostDto;
 import com.edu.ruse.studypal.entities.Organization;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface OrganizationMapper {
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "description", source = "description")
+    @Mapping(target = "organizationId", source = "organization.organizationId")
+
     OrganizationDto toDto(Organization organization);
     Organization toEntity(OrganizationDto organizationDto);
 

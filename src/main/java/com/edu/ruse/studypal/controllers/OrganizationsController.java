@@ -39,7 +39,7 @@ public class OrganizationsController {
 
     @GetMapping("{id}")
     public OrganizationDto getOrganizationById(@PathVariable("id") long id, @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
-        OrganizationDto res = organizationService.getOrganizationById(id, page);
+        OrganizationDto res = organizationService.getOrganizationById(id);
         if (res == null) {
             LOGGER.info("Organization with id {} was not found, returning 404.", id);
             throw new NotFoundOrganizationException("Organization with id " + id + " was not found");
