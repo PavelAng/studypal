@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,13 +20,16 @@ public class Degree {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long degreeId;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String description;
 
     @ManyToOne
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
+
+    @OneToMany(targetEntity = Course.class, mappedBy = "degree")
+    private List<Course> coursesList;
 }

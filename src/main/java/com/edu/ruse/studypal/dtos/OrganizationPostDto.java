@@ -14,4 +14,7 @@ public class OrganizationPostDto {
 
     @JsonProperty(value = "description", required = true)
     private String description;
+
+    @JsonProperty("top_lector_id")
+    private Long topLectorId;
 }

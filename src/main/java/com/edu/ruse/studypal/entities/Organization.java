@@ -20,12 +20,15 @@ public class Organization {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long organizationId;
 
-    @Column
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String description;
 
     @OneToMany(targetEntity = Degree.class, mappedBy = "organization")
     private List<Degree> degreeList;
+
+    @Column(name = "top_lector_id")
+    private Long topLectorId;
 }

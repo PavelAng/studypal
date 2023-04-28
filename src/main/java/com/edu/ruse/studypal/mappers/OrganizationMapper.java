@@ -10,8 +10,8 @@ import org.mapstruct.Mapping;
 public interface OrganizationMapper {
     @Mapping(target = "name", source = "name")
     @Mapping(target = "description", source = "description")
+    @Mapping(target = "topLectorId", source = "organization.topLectorId")
     @Mapping(target = "organizationId", source = "organization.organizationId")
-
     OrganizationDto toDto(Organization organization);
     Organization toEntity(OrganizationDto organizationDto);
 

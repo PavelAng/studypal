@@ -29,7 +29,6 @@ public class DegreesController {
         HttpStatus httpStatus = HttpStatus.CREATED;
         DegreeGetDto body = degreeService.createDegree(degreePostDto);
 
-
         return new ResponseEntity<>(body, httpStatus);
     }
 
@@ -39,8 +38,8 @@ public class DegreesController {
     }
 
     @GetMapping("{id}")
-    public DegreeGetDto getDegreeById(@PathVariable("id") long id, @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
-        DegreeGetDto res = degreeService.getDegreeById(id, page);
+    public DegreeGetDto getDegreeById(@PathVariable("id") long id) {
+        DegreeGetDto res = degreeService.getDegreeById(id);
         if (res == null) {
             LOGGER.info("Degree with id {} was not found, returning 404.", id);
             throw new NotFoundOrganizationException("Degree with id " + id + " was not found");

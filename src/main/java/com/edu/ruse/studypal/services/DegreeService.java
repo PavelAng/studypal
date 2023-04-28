@@ -1,6 +1,6 @@
 package com.edu.ruse.studypal.services;
 
-import com.edu.ruse.studypal.controllers.OrganizationsController;
+import com.edu.ruse.studypal.controllers.DegreesController;
 import com.edu.ruse.studypal.dtos.DegreeGetDto;
 import com.edu.ruse.studypal.dtos.DegreePostDto;
 import com.edu.ruse.studypal.entities.Degree;
@@ -27,7 +27,7 @@ public class DegreeService {
     private final DegreeMapper degreeMapper;
     private final OrganizationService organizationService;
     private static final int PAGE_SIZE = 2;
-    private static final Logger LOGGER = LogManager.getLogger(OrganizationsController.class);
+    private static final Logger LOGGER = LogManager.getLogger(DegreesController.class);
 
 
     @Autowired
@@ -58,11 +58,11 @@ public class DegreeService {
     }
 
 
-    public DegreeGetDto getDegreeById(long id, int page) {
+    public DegreeGetDto getDegreeById(long id) {
         Optional<Degree> degreeOptional = degreeRepository.findById(id);
 
         if (degreeOptional.isEmpty()) {
-            throw new NotFoundOrganizationException("Could not extract organization entity with id " + id);
+            throw new NotFoundOrganizationException("Could not extract degree entity with id " + id);
         }
         Degree degree = degreeOptional.get();
 
@@ -107,5 +107,4 @@ public class DegreeService {
 
         return toUpdate;
     }
-
 }
