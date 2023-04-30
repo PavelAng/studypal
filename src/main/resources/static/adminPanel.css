@@ -1,0 +1,77 @@
+/* Reset styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Header styles */
+header {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0 auto;
+  display: table;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline-block;
+  position: relative;
+}
+
+nav ul li a {
+  display: block;
+  padding: 10px 20px;
+  color: #fff;
+  text-decoration: none;
+}
+
+nav ul li:hover > a {
+  background-color: #444;
+}
+
+/* Submenu styles */
+nav ul ul {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #333;
+  display: none;
+  padding: 0;
+}
+
+nav ul ul li {
+  display: block;
+  width: 200px;
+}
+
+nav ul ul li a {
+  display: block;
+  padding: 10px 20px;
+  color: #fff;
+  text-decoration: none;
+}
+
+nav ul ul li:hover > a {
+  background-color: #444;
+}
+
+/* Show submenu on hover */
+nav ul li:hover > ul {
+  display: inherit;
+}
+
+/* Hide submenu when not in use */
+nav ul ul:hover {
+  display: inherit;
+}
+
+nav ul ul li:hover > ul {
+  display: inherit;
+}
