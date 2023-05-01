@@ -4,13 +4,15 @@
   position: fixed;
   top: 0;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .header a {
-  float: left;
   color: white;
   text-align: center;
-  padding: 20px;
+  padding: 0 20px;
   text-decoration: none;
   font-size: 16px;
 }
@@ -19,27 +21,28 @@
   background-color: dodgerblue;
 }
 
-
 .header-right {
-  float: right;
+  display: flex;
+  align-items: center;
 }
+
+.header a:not(.logo) {
+  margin-left: 20px;
+}
+
 @media screen and (max-width: 500px) {
-  .header a {
-    float: none;
-    display: block;
-    text-align: left;
+  .header {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+  .header a:not(.logo) {
+    margin-left: 0;
+    margin-bottom: 10px;
   }
   .header-right {
-    float: none;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
 }
-.logo {
-  display: inline-block;
-  pointer-events: none;
-}
-.logo img {
-  width: 100px;
-  height: auto;
-  vertical-align: middle;
-}
-
