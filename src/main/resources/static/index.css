@@ -3,7 +3,7 @@ body {
   padding: 0;
 }
 
-/* Header styles */
+/* Header styles
 .header {
   position: fixed;
   top: 0;
@@ -31,7 +31,7 @@ body {
 .header a.active {
   background-color: dodgerblue;
 }
-
+*/
 /* Content styles */
 .content {
   padding-top: 60px;
