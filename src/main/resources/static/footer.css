@@ -20,7 +20,6 @@
   text-overflow: ellipsis;
 }
 
-
 .footer-left, .footer-right {
   flex: 1;
   text-align: center;
@@ -43,6 +42,7 @@
   text-decoration: none;
   outline: none;
 }
+
 .links {
     display: flex;
     justify-content: center;
@@ -67,4 +67,6 @@
     color: #ccc;
 }
 
-
+.phone {
+  margin-bottom: 5px;
+}
