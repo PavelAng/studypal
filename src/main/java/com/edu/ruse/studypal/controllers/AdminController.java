@@ -33,7 +33,7 @@ public class AdminController {
     @GetMapping("/admin-faculty/add")
     public String addAdminFaculty(Model model) {
         // Add your code here to add a new admin faculty
-        return "redirect:/adminPanel";
+        return "redirect:/faculties";
     }
 
     @GetMapping("/admin-faculty/edit")
