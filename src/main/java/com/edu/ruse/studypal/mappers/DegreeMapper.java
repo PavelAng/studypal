@@ -8,14 +8,13 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface DegreeMapper {
-    @Mapping(target = "organizationDto.name", source = "organization.name")
-    @Mapping(target = "organizationDto.description", source = "organization.description")
+    @Mapping(target = "facultyGetDto.name", source = "faculty.name")
     DegreeGetDto toDto(Degree degree);
 
     Degree toEntity(DegreeGetDto degreeGetDto);
 
     DegreePostDto toPostDto(Degree degree);
 
-    @Mapping(target = "organization.organizationId", source = "organizationId")
+    @Mapping(target = "faculty.facId", source = "facultyId")
     Degree toEntityFromPostDto(DegreePostDto degreePostDto);
 }

@@ -27,9 +27,10 @@ public class Degree {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "organization_id", nullable = false)
-    private Organization organization;
+    @JoinColumn(name = "fac_id", nullable = false)
+    private Faculty faculty;
 
     @OneToMany(targetEntity = Course.class, mappedBy = "degree")
     private List<Course> coursesList;
+
 }

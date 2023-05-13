@@ -59,7 +59,6 @@ public class OrganizationsController {
         }
     }
 
-
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteOrganization(@PathVariable("id") long id) {
         HttpStatus status = HttpStatus.GONE;

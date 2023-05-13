@@ -26,9 +26,9 @@ public class Organization {
     @Column(nullable = false)
     private String description;
 
-    @OneToMany(targetEntity = Degree.class, mappedBy = "organization")
-    private List<Degree> degreeList;
+    @OneToMany(targetEntity = Faculty.class, mappedBy = "organization")
+    private List<Faculty> facultyList;
 
-    @Column(name = "top_lector_id")
-    private Long topLectorId;
+    @Column(name = "admin_org_id")
+    private Long adminOrg;
 }

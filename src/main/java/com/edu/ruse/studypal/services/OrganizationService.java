@@ -28,7 +28,6 @@ public class OrganizationService {
     private static final int PAGE_SIZE = 2;
     private static final Logger LOGGER = LogManager.getLogger(OrganizationsController.class);
 
-
     @Autowired
     public OrganizationService(OrganizationRepository organizationRepository, OrganizationMapper organizationMapper) {
         this.organizationRepository = organizationRepository;
@@ -66,6 +65,7 @@ public class OrganizationService {
         Organization entityToUpdate = toUpdate.get();
         String desc = dto.getDescription();
         String name = dto.getName();
+        Long lector = dto.getAdminOrg();
 
         if (desc == null || name == null) {
             LOGGER.info("Request body not valid!");
@@ -77,6 +77,9 @@ public class OrganizationService {
         }
         if (!Objects.equals(entityToUpdate.getName(), name)) {
             entityToUpdate.setName(name);
+        }
+        if (!Objects.equals(entityToUpdate.getAdminOrg(), lector)) {
+            entityToUpdate.setAdminOrg(lector);
         }
         organizationRepository.save(entityToUpdate);
 

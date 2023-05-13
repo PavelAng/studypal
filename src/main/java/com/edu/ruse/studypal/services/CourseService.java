@@ -48,6 +48,9 @@ public class CourseService {
         Pageable pageable = Pageable.ofSize(PAGE_SIZE).withPage(page);
         Page<Course> all = courseRepository.findAll(pageable);
         List<CourseGetDto> res = all.getContent().stream().map(courseMapper::toDto).collect(Collectors.toList());
+        /*for (CourseGetDto c: res) {
+            c.setDegreeGetDto(degreeService.getDegreeById(courseMapper.toEntity().getCourseId()));
+        }*/
 
         return res;
     }

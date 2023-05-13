@@ -26,24 +26,26 @@ public class DegreeService {
     private final DegreeRepository degreeRepository;
     private final DegreeMapper degreeMapper;
     private final OrganizationService organizationService;
+    private final FacultyService facultyService;
     private static final int PAGE_SIZE = 2;
     private static final Logger LOGGER = LogManager.getLogger(DegreesController.class);
 
 
     @Autowired
-    public DegreeService(DegreeRepository degreeRepository, DegreeMapper degreeMapper, OrganizationService organizationService) {
+    public DegreeService(DegreeRepository degreeRepository, DegreeMapper degreeMapper, OrganizationService organizationService, FacultyService facultyService) {
         this.degreeRepository = degreeRepository;
         this.degreeMapper = degreeMapper;
         this.organizationService = organizationService;
+        this.facultyService = facultyService;
     }
 
     public DegreeGetDto createDegree(DegreePostDto degreePostDto) {
         Degree degree = degreeMapper.toEntityFromPostDto(degreePostDto);
 
-        organizationService.getOrganizationById(degreePostDto.getOrganizationId());
+        organizationService.getOrganizationById(degreePostDto.getFacultyId());
         Degree savedEntity = degreeRepository.save(degree);
         DegreeGetDto res = degreeMapper.toDto(savedEntity);
-        res.setOrganizationDto(organizationService.getOrganizationById(degreePostDto.getOrganizationId()));
+        res.setFacultyGetDto(facultyService.getFacultyById(degreePostDto.getFacultyId()));
         LOGGER.info("Created Degree with id = " + res.getDegreeId());
 
         return res;

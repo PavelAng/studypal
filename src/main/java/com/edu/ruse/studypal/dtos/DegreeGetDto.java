@@ -15,6 +15,6 @@ public class DegreeGetDto {
     private String name;
     @JsonProperty("description")
     private String description;
-    @JsonProperty("organization")
-    private OrganizationDto organizationDto;
+    @JsonProperty("faculty")
+    private FacultyGetDto facultyGetDto;
 }

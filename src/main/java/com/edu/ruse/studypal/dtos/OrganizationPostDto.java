@@ -15,6 +15,6 @@ public class OrganizationPostDto {
     @JsonProperty(value = "description", required = true)
     private String description;
 
-    @JsonProperty("top_lector_id")
-    private Long topLectorId;
+    @JsonProperty("admin_org_id")
+    private Long adminOrg;
 }
