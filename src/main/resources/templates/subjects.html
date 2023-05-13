@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Subjects</title>
+    <link rel="stylesheet" type="text/css" href="/header.css">
+    <link rel="stylesheet" type="text/css" href="/footer.css">
+    <link rel="stylesheet" type="text/css" href="/subjects.css">
+</head>
+<body>
+<div th:replace="header :: header"></div>
+<main>
+    <section>
+        <h2>List of Subjects:</h2>
+        <ul>
+            <li><a href="/subjects/math">Math</a></li>
+            <li><a href="/subjects/science">Science</a></li>
+            <li><a href="/subjects/history">History</a></li>
+            <li><a href="/subjects/english">English</a></li>
+        </ul>
+    </section>
+</main>
+<div th:replace="footer :: footer"></div>
+</body>
+</html>

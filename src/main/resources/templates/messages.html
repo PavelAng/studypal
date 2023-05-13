@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Message Board</title>
+    <link rel="stylesheet" type="text/css" href="/messages.css">
+    <link rel="stylesheet" type="text/css" href="/footer.css">
+    <link rel="stylesheet" type="text/css" href="/header.css">
+</head>
+<body>
+<div th:replace="header :: header"></div>
+<header>
+    <h1>Message Board</h1>
+</header>
+<main>
+    <section>
+        <form>
+            <h2>Add a new message:</h2>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+    <section>
+        <h2>Recent messages:</h2>
+        <ul class="messages" id="messages">
+        <li>
+                <div class="message-header">
+                    <span class="message-name">John</span>
+                    <span class="message-time">2 hours ago</span>
+                </div>
+                <p class="message-text">Hello, this is my first message!</p>
+            </li>
+            <li>
+                <div class="message-header">
+                    <span class="message-name">Jane</span>
+                    <span class="message-time">1 day ago</span>
+                </div>
+                <p class="message-text">Welcome to the message board!</p>
+            </li>
+        </ul>
+    </section>
+</main>
+<div th:replace="footer :: footer"></div>
+</body>
+</html>

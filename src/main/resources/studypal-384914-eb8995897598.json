@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "studypal-384914",
+  "private_key_id": "eb899589759877a00141bb62931079c18ec09663",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDVXCJ4nw5VBy3h\n43cl+W/ZvH8BqBBablTXd3XVPiGVDVpAX4/byxMLBblsa/eI4jpUMQzkX7o79Y2l\nM6EkcCh2NZFIFPZg116e6xJSGuY3QY6q419PQRFU7s4AseXc99GZjbdyH+TiiJej\nr+4nixfmscfkSs2AyjNXtwBHi3+LrUc/BzgxgyKBdeZkTbfrqsKxLsM/L/bmg00H\nFx/2NQ8sBrr/DjcMsFmLHzhycMgaEWh5yzCivFy4AXx4p5UQy9zEfQb+XToMYU2c\n9nqED3E2ZRASJZGXF7+XAgnxblPhBst1ogyp4ZZyDC6gXKeeYiQrjh/pDLswmbDV\nnO1nAX+nAgMBAAECggEAPLBH59qKV5pCrVGn1wfkDmGlGMIG4MooXN+Qh1b0c3LI\nXK4x+9mAMa7vpszxLKD46XDIU399OEfpAfg1GmnCwJkNGZ1I1ZP9SKPh4rPfDxGZ\nNLeXKTJ/bRK+SwlPMnLVTmG2sAItd1hWFcvZqKrSYh7olmHGoZ8iSo11yWP/JCnh\nCRj7TxXS2Rx+AohifkNmvNvZwtbNpdV1nntzs5e6eGbNW2BhT9LMJAuLjrIH0AWN\nD1WRxvF+lCqgw/Vw3fsqx92f0F7/Kpqi+stBhjIM2zV8UnjqGdGvpSeTBv7W0wil\n/LhOG2++VrXeIt/IFiqvMXg3lTAhOtKTox+cxVkljQKBgQD2cACOuSilrfrB/XlI\nwaddXImHox42suZM/XvGmXq3RYOjp/2RCBMzNs+j7N9zSYo8e26oPAIiXOtSCmDI\n6+/JBZ9ja8SByAZfUZ2x0HSohEVP9hUkau5tAPf+gYg/HFnSxaNR1sEq624FdMTX\n7qG8LUJ3zyGbOF7N/ga/xOt09QKBgQDdo436u6m4TACVB+j/reCHOftkCxPaIlYA\nkSmOeuZbKsRoXjdw6te/gdUhV2kZ2F8Ope8mR74WKSo+ePw80ptJ/x2xcV2kCYbO\nVQn3koHvCoRyHWEXiBP2M2vFiwXavDWzp41eLg94T8zuEyEQdT8CxgwWOBDe4HfT\nceYQO1TgqwKBgEPLSgv5WfpCI2KshWoDhDRF2bvLnuszSfHSJfPbkwvJ/s3N0A7O\n5uFG6dZRuqLvjyzWU/nKEFg9sarvGfMMHPnzJwblxbhiO4aLYFNjYkRdpue5bdWH\n6TFpe8+y+LVL6lX2cth3uMpC3BB6MBCrICkxVkC5Zaha2JHYmSi2VoPlAoGBAJc5\nfSpS2R5yXQNSflvVm5koqqo8FLOFMgD5Cs24dWxG5fQANPvKgKKeR3mUVpXX2CP6\nfA42bTBZrgUqL5CgcmwusWfc3fOKvHwT8dUGFbmwB2aFPTX9FwGpXCNRFBGG0W1f\nKUnVS6DfcggO7UR5eyC9WIngf0JTDe8ri7oPgX45AoGARm5RFzVoCPjJULWFKNkQ\nwvu4+cGY0uQ63lR+/8r5hla1aZ53CmZfIk+toPQknrAvwathOt0/QuroqLghb/YA\nYB1uShOKCb9RL/dH/1vV8ehGcB/yAMJsc1rpovuDMLnk6OkktVjlJxLOAMVhPQSS\nFMk2Ppm6vXlyS0cUrAnaNaY=\n-----END PRIVATE KEY-----\n",
+  "client_email": "studypal@studypal-384914.iam.gserviceaccount.com",
+  "client_id": "102947449835932047051",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/studypal%40studypal-384914.iam.gserviceaccount.com"
+}
