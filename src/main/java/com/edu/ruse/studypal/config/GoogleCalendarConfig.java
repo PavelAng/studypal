@@ -1,4 +1,4 @@
-package com.edu.ruse.studypal;
+package com.edu.ruse.studypal.config;
 
 import java.io.IOException;
 import java.io.InputStream;
