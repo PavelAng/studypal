@@ -6,6 +6,9 @@ import com.edu.ruse.studypal.entities.Course;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+/**
+ * @author anniexp
+ */
 @Mapper(componentModel = "spring")
 public interface CourseMapper {
     @Mapping(target = "degreeGetDto", source = "degree")

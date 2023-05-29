@@ -1,30 +1,20 @@
-package com.edu.ruse.studypal.entities;
+package com.edu.ruse.studypal.dtos;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.edu.ruse.studypal.entities.RoleEnum;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import jakarta.persistence.*;
-
 /**
  * @author anniexp
  */
-@Getter
-@Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "users")
-@Table(name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username")
-        })
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Data
+public class RegisterDto {
     private Long user_id;
 
     @NotBlank
@@ -38,7 +28,4 @@ public class User {
 
     @Column(name = "role", nullable = false)
     private RoleEnum role;
-
-    @Column(name = "enabled", nullable = false)
-    private boolean enabled;
 }

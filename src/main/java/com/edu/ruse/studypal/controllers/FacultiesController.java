@@ -14,17 +14,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author anniexp
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("faculties")
 public class FacultiesController {
     private static final Logger LOGGER = LogManager.getLogger(OrganizationsController.class);
     private final FacultyService facultyService;
-//add get view mwthod
-    /*@GetMapping
-    public List<FacultyGetDto> getAllFaculties(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
-        return facultyService.getAllFaculties(page);
-    }*/
+
     @PostMapping("/add")
     public ResponseEntity<FacultyGetDto> createFaculty(@RequestBody FacultyPostDto facultyPostDto) {
         HttpStatus httpStatus = HttpStatus.CREATED;

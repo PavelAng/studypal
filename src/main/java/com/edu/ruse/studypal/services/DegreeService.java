@@ -21,6 +21,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * @author anniexp
+ */
 @Service
 public class DegreeService {
     private final DegreeRepository degreeRepository;

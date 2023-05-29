@@ -6,6 +6,9 @@ import com.edu.ruse.studypal.entities.Organization;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+/**
+ * @author anniexp
+ */
 @Mapper(componentModel = "spring")
 public interface OrganizationMapper {
     @Mapping(target = "name", source = "name")
