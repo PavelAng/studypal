@@ -6,8 +6,11 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -15,6 +18,8 @@ import java.util.Date;
 
 @Component
 public class JwtUtils {
+   @Autowired
+   UserDetailsService userDetailsService;
   private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
   @Value("${studypal.app.jwtSecret}")
@@ -43,7 +48,12 @@ public class JwtUtils {
     return Jwts.parserBuilder().setSigningKey(key()).build()
                .parseClaimsJws(token).getBody().getSubject();
   }
-
+  public String getUserRoleFromJwtToken(String token) {
+    String username = getUserNameFromJwtToken(token);
+    UserDetails userDetails = userDetailsService.loadUserByUsername(username);;
+    String res = String.valueOf(userDetails.getAuthorities().iterator().next());
+   return res;
+  }
   public boolean validateJwtToken(String authToken) {
     try {
       Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);

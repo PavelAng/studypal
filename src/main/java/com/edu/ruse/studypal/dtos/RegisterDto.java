@@ -27,5 +27,5 @@ public class RegisterDto {
     private String username;
 
     @Column(name = "role", nullable = false)
-    private RoleEnum role;
+    private String role;
 }

@@ -2,6 +2,7 @@ package com.edu.ruse.studypal.controllers;
 
 import com.edu.ruse.studypal.dtos.LoginDto;
 import com.edu.ruse.studypal.dtos.RegisterDto;
+import com.edu.ruse.studypal.entities.RoleEnum;
 import com.edu.ruse.studypal.entities.User;
 import com.edu.ruse.studypal.exceptions.NotFoundRoleException;
 import com.edu.ruse.studypal.mappers.UserMapper;
@@ -28,9 +29,11 @@ import java.util.stream.Collectors;
  */
     @CrossOrigin(origins = "*", maxAge = 3600)
     @RestController
-    @RequestMapping("/api/auth")
+    @RequestMapping("auth")
     public class AuthController {
-        @Autowired
+        public static String jwt = "";
+
+    @Autowired
         AuthenticationManager authenticationManager;
 
         @Autowired
@@ -52,7 +55,8 @@ import java.util.stream.Collectors;
                     .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            String jwt = jwtUtils.generateJwtToken(authentication);
+            jwt = jwtUtils.generateJwtToken(authentication);
+
 
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
@@ -63,13 +67,12 @@ import java.util.stream.Collectors;
         }
 
         private boolean isRoleValid(String inputRole) {
-            if (!inputRole.equalsIgnoreCase("ROLE_ADMIN") &&
-                    !inputRole.equalsIgnoreCase("ROLE_STUDENT") &&
-                    !inputRole.equalsIgnoreCase("ROLE_TEACHER") &&
-                    !inputRole.equalsIgnoreCase("ROLE_COORDINATOR")) {
-                throw new NotFoundRoleException();
+            for (RoleEnum role : RoleEnum.values()) {
+                if (inputRole.equals(role.name())) {
+                    return true;
+                }
             }
-            return true;
+            throw new NotFoundRoleException("Role with name " + inputRole + " was not found");
         }
 
         @PostMapping("/signup")
@@ -77,10 +80,11 @@ import java.util.stream.Collectors;
             if (userRepository.existsByUsername(registerDto.getUsername())) {
                 return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
             }
+
+
+            isRoleValid(registerDto.getRole());
             User user = userMapper.toEntityFromPostDto(registerDto);
             user.setPassword(encoder.encode(registerDto.getPassword()));
-            String strRoles = String.valueOf(registerDto.getRole());
-            isRoleValid(strRoles);
 
             User res = userRepository.save(user);
             userRepository.save(user);

@@ -1,5 +1,6 @@
 package com.edu.ruse.studypal.security.jwt;
 
+import com.edu.ruse.studypal.controllers.AuthController;
 import com.edu.ruse.studypal.security.services.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -30,9 +31,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
     try {
-      String jwt = parseJwt(request);
+   //   String jwt = parseJwt(request);
+      String jwt = AuthController.jwt;
+
       if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
         String username = jwtUtils.getUserNameFromJwtToken(jwt);
+        String role =  jwtUtils.getUserRoleFromJwtToken(jwt);
+        System.out.println("Role of logged in user is : " + role);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,

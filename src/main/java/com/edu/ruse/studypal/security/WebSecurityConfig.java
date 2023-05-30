@@ -1,5 +1,6 @@
 package com.edu.ruse.studypal.security;
 
+import com.edu.ruse.studypal.controllers.AuthController;
 import com.edu.ruse.studypal.security.jwt.AuthEntryPointJwt;
 import com.edu.ruse.studypal.security.jwt.AuthTokenFilter;
 import com.edu.ruse.studypal.security.services.UserDetailsServiceImpl;
@@ -19,10 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableMethodSecurity
-// (securedEnabled = true,
-// jsr250Enabled = true,
-// prePostEnabled = true) // by default
-public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
   @Autowired
   UserDetailsServiceImpl userDetailsService;
 
@@ -62,8 +60,18 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
         .authorizeHttpRequests(auth -> 
           auth.requestMatchers("/api/auth/**").permitAll()
               .requestMatchers("/api/test/**").permitAll()
+                  .requestMatchers("/auth/**").permitAll()
+                  .requestMatchers("/error").permitAll()
+                  .requestMatchers("/login").permitAll()
               .anyRequest().authenticated()
-        );
+        )
+            .logout((logout) -> {
+
+              logout.clearAuthentication(false).logoutSuccessHandler((request, response, authentication) -> {
+                response.sendRedirect("/login");
+                AuthController.jwt = "default";
+              });
+            });
     
     http.authenticationProvider(authenticationProvider());
 
