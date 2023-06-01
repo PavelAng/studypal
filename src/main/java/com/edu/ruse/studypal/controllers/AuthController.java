@@ -13,13 +13,16 @@ import com.edu.ruse.studypal.security.responses.MessageResponse;
 import com.edu.ruse.studypal.security.services.UserDetailsImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,8 +51,14 @@ import java.util.stream.Collectors;
         @Autowired
         JwtUtils jwtUtils;
 
-        @PostMapping("/signin")
-        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginDto loginRequest) {
+       // @PostMapping("/signin")
+    @RequestMapping(value = "/signin", produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.ALL_VALUE)
+        public RedirectView authenticateUser(@Valid LoginDto loginRequest, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return new RedirectView("login.html");
+        }
 
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -62,8 +71,7 @@ import java.util.stream.Collectors;
             List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
                     .collect(Collectors.toList());
 
-            return ResponseEntity
-                    .ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), roles));
+            return new RedirectView("/");
         }
 
         private boolean isRoleValid(String inputRole) {
