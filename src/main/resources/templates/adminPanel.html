@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>StudyPal Admin Panel</title>
@@ -7,6 +9,7 @@
 </head>
 <body>
 <header>
+  <div sec:authorize="hasRole('ROLE_ADMIN')">
   <nav>
     <ul>
       <li><a class="active" href="/">Home</a></li>
@@ -75,6 +78,15 @@
       </li>
     </ul>
   </nav>
+  </div>
+
+
+  <div sec:authorize="!hasRole('ROLE_ADMIN')">
+    <h1>Access Denied</h1>
+    <p>You don't have permission to access this page.</p>
+    <a href="/">Go back to Home</a>
+  </div>
+
 </header>
 </body>
 </html>
