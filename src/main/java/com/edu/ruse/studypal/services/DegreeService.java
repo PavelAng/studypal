@@ -33,7 +33,6 @@ public class DegreeService {
     private static final int PAGE_SIZE = 2;
     private static final Logger LOGGER = LogManager.getLogger(DegreesController.class);
 
-
     @Autowired
     public DegreeService(DegreeRepository degreeRepository, DegreeMapper degreeMapper, OrganizationService organizationService, FacultyService facultyService) {
         this.degreeRepository = degreeRepository;

@@ -89,13 +89,11 @@ import java.util.stream.Collectors;
                 return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
             }
 
-
             isRoleValid(registerDto.getRole());
             User user = userMapper.toEntityFromPostDto(registerDto);
             user.setPassword(encoder.encode(registerDto.getPassword()));
 
             User res = userRepository.save(user);
-            userRepository.save(user);
 
             return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
         }

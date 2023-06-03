@@ -19,6 +19,4 @@ public class FacultyPostDto {
     @JsonProperty("organization")
     private Long organizationId;
 
-    @JsonProperty("coordinator")
-    private Long coordinator;
 }

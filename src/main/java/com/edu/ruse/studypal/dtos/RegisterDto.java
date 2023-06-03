@@ -1,6 +1,5 @@
 package com.edu.ruse.studypal.dtos;
 
-import com.edu.ruse.studypal.entities.RoleEnum;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
