@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>StudyPal Admin Panel</title>
@@ -7,24 +9,18 @@
 </head>
 <body>
 <header>
+  <div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_COORDINATOR')">
   <nav>
     <ul>
       <li><a class="active" href="/">Home</a></li>
-      <li><a href="#">Students</a>
+      <li><a href="#">Users</a>
         <ul>
-          <li><a href="#">Add</a></li>
+          <li><a onclick="openForm('add-user-form')">Add</a></li>
           <li><a href="#">Edit</a></li>
           <li><a href="#">Delete</a></li>
         </ul>
       </li>
       <li><a href="#">Organization</a>
-        <ul>
-          <li><a href="#">Add</a></li>
-          <li><a href="#">Edit</a></li>
-          <li><a href="#">Delete</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Admin Faculty</a>
         <ul>
           <li><a href="#">Add</a></li>
           <li><a href="#">Edit</a></li>
@@ -39,13 +35,6 @@
         </ul>
       </li>
       <li><a href="#">Еvaluation notebook</a>
-        <ul>
-          <li><a href="#">Add</a></li>
-          <li><a href="#">Edit</a></li>
-          <li><a href="#">Delete</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Teachers</a>
         <ul>
           <li><a href="#">Add</a></li>
           <li><a href="#">Edit</a></li>
@@ -75,6 +64,46 @@
       </li>
     </ul>
   </nav>
+  </div>
+
+
+  <div sec:authorize="!hasAnyRole('ROLE_ADMIN', 'ROLE_COORDINATOR')">
+    <h1>Access Denied</h1>
+    <p>You don't have permission to access this page.</p>
+    <a href="/">Go back to Home</a>
+  </div>
+
 </header>
+<div id="add-user-form" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeForm('add-user-form')">&times;</span>
+    <h2>Add User</h2>
+    <form action="/auth/signup" method="post">
+      <!-- Add student form fields here -->
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+      <br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      <br>
+      <label for="role">Role:</label>
+      <input type = "text" id="role" name="role" required>
+      <!-- Add more fields as needed -->
+      <br>
+      <button type="submit">Add User</button>
+    </form>
+  </div>
+</div>
+<script>
+    // Open the popup form
+    function openForm(formId) {
+      document.getElementById(formId).style.display = "block";
+    }
+
+    // Close the popup form
+    function closeForm(formId) {
+      document.getElementById(formId).style.display = "none";
+    }
+  </script>
 </body>
 </html>

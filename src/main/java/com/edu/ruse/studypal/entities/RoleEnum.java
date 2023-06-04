@@ -11,5 +11,4 @@ public enum RoleEnum {
     ROLE_COORDINATOR,
     ROLE_TEACHER,
     ROLE_ADMIN,
-    ROLE_FAC_ADMIN,
 }

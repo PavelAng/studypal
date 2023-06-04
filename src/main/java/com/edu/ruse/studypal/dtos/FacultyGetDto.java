@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 /**
  * @author anniexp
  */
@@ -22,6 +23,9 @@ public class FacultyGetDto {
     @JsonProperty("organization")
     private OrganizationDto organizationDto;
 
-    @JsonProperty("coordinator")
-    private Long coordinator;
+  /*  @JsonProperty("coordinators")
+    private ArrayList<User> coordinators;
+
+    @JsonProperty("coordinators")
+    private ArrayList<User> facultyTeachers;*/
 }

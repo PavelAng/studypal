@@ -12,6 +12,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface FacultyMapper {
     @Mapping(target = "organizationDto.name", source = "organization.name")
+    @Mapping(target = "organizationDto.adminOrg", source = "organization.adminOrg.user_id")
     FacultyGetDto toDto(Faculty faculty);
 
     Faculty toEntity(FacultyGetDto dto);

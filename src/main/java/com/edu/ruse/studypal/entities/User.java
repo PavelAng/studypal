@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 /**
  * @author anniexp
  */
@@ -41,4 +43,13 @@ public class User {
 
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
+
+    @ManyToMany(mappedBy = "coordinators", fetch = FetchType.LAZY)
+    private List<Faculty> coordinatedFaculties;
+
+    @ManyToMany(mappedBy = "facultyTeachers", fetch = FetchType.LAZY)
+    private List<Faculty> teachingFaculties;
+
+    @OneToMany(targetEntity = Organization.class, mappedBy = "adminOrg", cascade = CascadeType.ALL)
+    private List<Organization> organization;
 }

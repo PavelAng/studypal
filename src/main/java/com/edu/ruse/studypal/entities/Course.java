@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 /**
  * @author anniexp
  */
@@ -26,7 +27,8 @@ public class Course {
     @Column
     private String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "degree_id", nullable = false)
     private Degree degree;
+
 }
