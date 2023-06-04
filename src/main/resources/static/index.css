@@ -17,38 +17,12 @@ body {
   height: 100%;
 }
 
-.fac-admin-buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.fac-admin-buttons h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.fac-admin-buttons button {
-  padding: 10px 20px;
-  margin-bottom: 10px; /* Add space between buttons */
-  font-size: 16px;
-  border: none;
-  background-color: #007bff;
-  color: #fff;
-  cursor: pointer;
-}
-
-.fac-admin-buttons button:hover {
-  background-color: #0056b3;
-}
-
 .admin-panel-button {
 margin-top: 20px;
 text-align: center;
         }
 
-        .admin-panel-button button {
+.admin-panel-button button {
             padding: 10px 20px;
             font-size: 16px;
             background-color: #4CAF50;

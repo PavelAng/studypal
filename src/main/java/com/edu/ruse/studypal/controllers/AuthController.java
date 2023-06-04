@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
@@ -84,10 +85,10 @@ import java.util.stream.Collectors;
         }
 
         @PostMapping("/signup")
-        public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterDto registerDto) {
-            if (userRepository.existsByUsername(registerDto.getUsername())) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
-            }
+        public ModelAndView registerUser(@Valid RegisterDto registerDto) {
+//            if (userRepository.existsByUsername(registerDto.getUsername())) {
+//                return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+//            }
 
             isRoleValid(registerDto.getRole());
             User user = userMapper.toEntityFromPostDto(registerDto);
@@ -95,6 +96,7 @@ import java.util.stream.Collectors;
 
             User res = userRepository.save(user);
 
-            return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+            return new ModelAndView("/adminPanel");
+        //ResponseEntity.ok(new MessageResponse("User registered successfully!"));
         }
 }

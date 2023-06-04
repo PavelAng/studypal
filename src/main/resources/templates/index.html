@@ -13,26 +13,12 @@
 <div th:replace="header :: header"></div>
 
 
-<div sec:authorize="hasRole('ROLE_COORDINATOR')">
-    <div>
-        <h1>Welcome, COORDINATOR!</h1>
-    </div>
-</div>
-
 <div sec:authorize="hasRole('ROLE_TEACHER')">
     <iframe src="https://calendar.google.com/calendar/embed?src=studypal-384914%40gmail.com&ctz=Europe%2FSofia"
             style="border: 0" frameborder="0" scrolling="no"></iframe>
 </div>
 
-<div sec:authorize="hasRole('ROLE_FAC_ADMIN')" class="content">
-    <div class="fac-admin-buttons">
-        <button>Users</button>
-        <button>Courses</button>
-        <button>Faculties</button>
-    </div>
-</div>
-
-<div sec:authorize="hasRole('ROLE_ADMIN')" class="content">
+<div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_COORDINATOR')" class="content">
     <div class="admin-panel-button">
         <form action="/adminPanel" method="get">
             <button type="submit">Admin Panel</button>
