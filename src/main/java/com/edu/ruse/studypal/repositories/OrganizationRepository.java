@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author anniexp
  */
 public interface OrganizationRepository extends JpaRepository<Organization, Long> {
+
 }

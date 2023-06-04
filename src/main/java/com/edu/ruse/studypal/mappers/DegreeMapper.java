@@ -3,8 +3,11 @@ package com.edu.ruse.studypal.mappers;
 import com.edu.ruse.studypal.dtos.DegreeGetDto;
 import com.edu.ruse.studypal.dtos.DegreePostDto;
 import com.edu.ruse.studypal.entities.Degree;
+import com.edu.ruse.studypal.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import java.util.List;
 
 /**
  * @author anniexp

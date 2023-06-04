@@ -24,7 +24,7 @@ public class FacultiesController {
     private static final Logger LOGGER = LogManager.getLogger(OrganizationsController.class);
     private final FacultyService facultyService;
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add", produces = "application/json")
     public ResponseEntity<FacultyGetDto> createFaculty(@RequestBody FacultyPostDto facultyPostDto) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         FacultyGetDto body = facultyService.createFaculty(facultyPostDto);
