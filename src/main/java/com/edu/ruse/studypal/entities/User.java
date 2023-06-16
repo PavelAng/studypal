@@ -52,4 +52,7 @@ public class User {
 
     @OneToMany(targetEntity = Organization.class, mappedBy = "adminOrg", cascade = CascadeType.ALL)
     private List<Organization> organization;
+
+    @ManyToMany(mappedBy = "courseStudents", fetch = FetchType.LAZY)
+    private List<Course> currentCourses;
 }

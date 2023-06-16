@@ -74,4 +74,15 @@ public class CoursesController {
 
         return new ResponseEntity<>(status);
     }
+
+    @PutMapping("{id}/addStudent")
+    public CourseGetDto addStudentToCourse(@PathVariable("id") long id, @RequestParam("userId") int userId) {
+        try {
+            return courseService.addStudentToCourse(id, userId);
+        } catch (EntityNotFoundException e) {
+            LOGGER.debug("Course with id {} was not found, caught exception {}", id, e);
+            LOGGER.debug("Cause :", e);
+            throw new NotFoundOrganizationException("Course not found");
+        }
+    }
 }

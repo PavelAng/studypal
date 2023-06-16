@@ -8,6 +8,7 @@ import com.edu.ruse.studypal.entities.RoleEnum;
 import com.edu.ruse.studypal.entities.User;
 import com.edu.ruse.studypal.exceptions.NotFoundOrganizationException;
 import com.edu.ruse.studypal.exceptions.NotValidJsonBodyException;
+import com.edu.ruse.studypal.exceptions.UserNotAppropriateException;
 import com.edu.ruse.studypal.mappers.FacultyMapper;
 import com.edu.ruse.studypal.repositories.FacultyRepository;
 import com.edu.ruse.studypal.security.services.UserDetailsServiceImpl;
@@ -111,26 +112,45 @@ public FacultyGetDto createFaculty(FacultyPostDto facultyPostDto) {
         facultyRepository.delete(toDelete.get());
     }
 
-    public void addTeacher(long facId, long userId) {
+    public FacultyGetDto addTeacher(long facId, long userId) {
         Optional<Faculty> optionalFaculty = getFacultyEntity(facId);
-        List<User> facTeachers = optionalFaculty.get().getFacultyTeachers();
-
+        Faculty toUpdate = optionalFaculty.get();
+        List<User> facTeachers = toUpdate.getFacultyTeachers();
         User userToAdd = userService.getUserById(userId);
-        if (userToAdd.getRole().equals(RoleEnum.ROLE_TEACHER)) {
-            facTeachers.add(userToAdd);
+
+        if (facTeachers.contains(userToAdd)) {
+            throw new UserNotAppropriateException("Student already added to course!");
         }
+        if (!userToAdd.getRole().equals(RoleEnum.ROLE_TEACHER) &&
+                !userToAdd.getRole().equals(RoleEnum.ROLE_COORDINATOR)) {
+            throw new UserNotAppropriateException("User cannot be a teacher!");
+
+        }
+        facTeachers.add(userToAdd);
+        toUpdate.setFacultyTeachers(facTeachers);
+
+        return facultyMapper.toDto(facultyRepository.save(toUpdate));
     }
 
-    public void addCoordinator(long facId, long userId) {
+    public FacultyGetDto addCoordinator(long facId, long userId) {
         Optional<Faculty> optionalFaculty = getFacultyEntity(facId);
-        List<User> facTeachers = optionalFaculty.get().getFacultyTeachers();
-
+        Faculty toUpdate = optionalFaculty.get();
+        List<User> facTeachers = toUpdate.getCoordinators();
         User userToAdd = userService.getUserById(userId);
+
+        if (facTeachers.contains(userToAdd)) {
+            throw new UserNotAppropriateException("Student already added to course!");
+        }
         if (userToAdd.getRole().equals(RoleEnum.ROLE_COORDINATOR)) {
             facTeachers.add(userToAdd);
         } else if (userToAdd.getRole().equals(RoleEnum.ROLE_TEACHER)) {
             userToAdd.setRole(RoleEnum.ROLE_COORDINATOR);
             facTeachers.add(userToAdd);
+        } else {
+            throw new UserNotAppropriateException("User cannot be a fac coordinator");
         }
+        toUpdate.setCoordinators(facTeachers);
+
+        return facultyMapper.toDto(facultyRepository.save(toUpdate));
     }
 }
