@@ -1,5 +1,6 @@
 package com.edu.ruse.studypal.controllers;
 
+import com.edu.ruse.studypal.dtos.CourseGetDto;
 import com.edu.ruse.studypal.dtos.FacultyGetDto;
 import com.edu.ruse.studypal.dtos.FacultyPostDto;
 import com.edu.ruse.studypal.exceptions.NotFoundOrganizationException;
@@ -14,19 +15,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author anniexp
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("faculties")
 public class FacultiesController {
     private static final Logger LOGGER = LogManager.getLogger(OrganizationsController.class);
     private final FacultyService facultyService;
-//add get view mwthod
-    /*@GetMapping
-    public List<FacultyGetDto> getAllFaculties(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
-        return facultyService.getAllFaculties(page);
-    }*/
-    @PostMapping("/add")
-    public ResponseEntity<FacultyGetDto> createFaculty(@RequestBody FacultyPostDto facultyPostDto) {
+
+    @PostMapping(value = "/add", produces = "application/json")
+    public ResponseEntity<FacultyGetDto> createFaculty(FacultyPostDto facultyPostDto) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         FacultyGetDto body = facultyService.createFaculty(facultyPostDto);
 
@@ -72,5 +72,27 @@ public class FacultiesController {
         }
 
         return new ResponseEntity<>(status);
+    }
+
+    @PutMapping("{id}/addTeacher")
+    public FacultyGetDto addTeacherToFaculty(@PathVariable("id") long id, @RequestParam("userId") int userId) {
+        try {
+            return facultyService.addTeacher(id, userId);
+        } catch (EntityNotFoundException e) {
+            LOGGER.debug("Faculty with id {} was not found, caught exception {}", id, e);
+            LOGGER.debug("Cause :", e);
+            throw new NotFoundOrganizationException("Faculty not found");
+        }
+    }
+
+    @PutMapping("{id}/addCoordinator")
+    public FacultyGetDto addCoordinatorToFaculty(@PathVariable("id") long id, @RequestParam("userId") int userId) {
+        try {
+            return facultyService.addCoordinator(id, userId);
+        } catch (EntityNotFoundException e) {
+            LOGGER.debug("Faculty with id {} was not found, caught exception {}", id, e);
+            LOGGER.debug("Cause :", e);
+            throw new NotFoundOrganizationException("Faculty not found");
+        }
     }
 }

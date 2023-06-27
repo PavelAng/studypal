@@ -6,9 +6,13 @@ import com.edu.ruse.studypal.entities.Faculty;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+/**
+ * @author anniexp
+ */
 @Mapper(componentModel = "spring")
 public interface FacultyMapper {
     @Mapping(target = "organizationDto.name", source = "organization.name")
+    @Mapping(target = "organizationDto.adminOrg", source = "organization.adminOrg.user_id")
     FacultyGetDto toDto(Faculty faculty);
 
     Faculty toEntity(FacultyGetDto dto);

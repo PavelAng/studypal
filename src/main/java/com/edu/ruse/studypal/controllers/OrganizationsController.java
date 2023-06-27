@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * Controller defining a RESTful API for organizations.
+ * @author anniexp
  */
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class OrganizationsController {
     private final OrganizationService organizationService;
 
     @PostMapping
-    public ResponseEntity<OrganizationDto> createOrganization(@RequestBody OrganizationPostDto organizationPostDto) {
+    public ResponseEntity<OrganizationDto> createOrganization(OrganizationPostDto organizationPostDto) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         OrganizationDto body = organizationService.createOrganization(organizationPostDto);
 

@@ -8,6 +8,7 @@ import com.edu.ruse.studypal.exceptions.NotFoundOrganizationException;
 import com.edu.ruse.studypal.exceptions.NotValidJsonBodyException;
 import com.edu.ruse.studypal.mappers.OrganizationMapper;
 import com.edu.ruse.studypal.repositories.OrganizationRepository;
+import com.edu.ruse.studypal.security.services.UserDetailsServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +22,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * @author anniexp
+ */
 @Service
 public class OrganizationService {
     private final OrganizationRepository organizationRepository;
@@ -28,13 +32,17 @@ public class OrganizationService {
     private static final int PAGE_SIZE = 2;
     private static final Logger LOGGER = LogManager.getLogger(OrganizationsController.class);
 
+    private final UserDetailsServiceImpl userService;
     @Autowired
-    public OrganizationService(OrganizationRepository organizationRepository, OrganizationMapper organizationMapper) {
+    public OrganizationService(OrganizationRepository organizationRepository, OrganizationMapper organizationMapper, UserDetailsServiceImpl userService) {
         this.organizationRepository = organizationRepository;
         this.organizationMapper = organizationMapper;
+        this.userService = userService;
     }
 
     public OrganizationDto createOrganization(OrganizationPostDto organizationPostDto) {
+        userService.getUserById(organizationPostDto.getAdminOrg());
+
         Organization organization = organizationMapper.toEntityFromPostDto(organizationPostDto);
         Organization res = organizationRepository.save(organization);
 
@@ -78,8 +86,8 @@ public class OrganizationService {
         if (!Objects.equals(entityToUpdate.getName(), name)) {
             entityToUpdate.setName(name);
         }
-        if (!Objects.equals(entityToUpdate.getAdminOrg(), lector)) {
-            entityToUpdate.setAdminOrg(lector);
+        if (!Objects.equals(entityToUpdate.getAdminOrg().getUser_id(), lector)) {
+            entityToUpdate.setAdminOrg(userService.getUserById(lector));
         }
         organizationRepository.save(entityToUpdate);
 

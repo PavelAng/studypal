@@ -21,6 +21,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * @author anniexp
+ */
 @Service
 public class DegreeService {
     private final DegreeRepository degreeRepository;
@@ -29,7 +32,6 @@ public class DegreeService {
     private final FacultyService facultyService;
     private static final int PAGE_SIZE = 2;
     private static final Logger LOGGER = LogManager.getLogger(DegreesController.class);
-
 
     @Autowired
     public DegreeService(DegreeRepository degreeRepository, DegreeMapper degreeMapper, OrganizationService organizationService, FacultyService facultyService) {

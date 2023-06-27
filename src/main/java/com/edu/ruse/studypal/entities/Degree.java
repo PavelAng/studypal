@@ -8,6 +8,9 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * @author anniexp
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -30,7 +33,7 @@ public class Degree {
     @JoinColumn(name = "fac_id", nullable = false)
     private Faculty faculty;
 
-    @OneToMany(targetEntity = Course.class, mappedBy = "degree")
+    @OneToMany(targetEntity = Course.class, mappedBy = "degree", cascade = CascadeType.ALL)
     private List<Course> coursesList;
 
 }

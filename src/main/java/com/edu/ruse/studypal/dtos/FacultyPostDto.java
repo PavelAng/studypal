@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+/**
+ * @author anniexp
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -17,6 +19,4 @@ public class FacultyPostDto {
     @JsonProperty("organization")
     private Long organizationId;
 
-    @JsonProperty("coordinator")
-    private Long coordinator;
 }

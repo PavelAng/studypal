@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+/**
+ * @author anniexp
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class OrganizationPostDto {
+public class  OrganizationPostDto {
     @JsonProperty(value = "name", required = true)
     private String name;
 

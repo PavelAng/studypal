@@ -4,12 +4,17 @@ import com.edu.ruse.studypal.controllers.CoursesController;
 import com.edu.ruse.studypal.dtos.CourseGetDto;
 import com.edu.ruse.studypal.dtos.CoursePostDto;
 import com.edu.ruse.studypal.entities.Course;
+import com.edu.ruse.studypal.entities.RoleEnum;
+import com.edu.ruse.studypal.entities.User;
 import com.edu.ruse.studypal.exceptions.NotFoundOrganizationException;
+import com.edu.ruse.studypal.exceptions.UserNotAppropriateException;
 import com.edu.ruse.studypal.mappers.CourseMapper;
 import com.edu.ruse.studypal.repositories.CourseRepository;
+import com.edu.ruse.studypal.security.services.UserDetailsServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,6 +23,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * @author anniexp
+ */
 @Service
 public class CourseService {
     private final CourseRepository courseRepository;
@@ -25,11 +33,14 @@ public class CourseService {
     private final DegreeService degreeService;
     private static final int PAGE_SIZE = 2;
     private static final Logger LOGGER = LogManager.getLogger(CoursesController.class);
+    private final UserDetailsServiceImpl userService;
 
-    public CourseService(CourseRepository courseRepository, CourseMapper courseMapper, DegreeService degreeService) {
+    @Autowired
+    public CourseService(CourseRepository courseRepository, CourseMapper courseMapper, DegreeService degreeService, UserDetailsServiceImpl userService) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
         this.degreeService = degreeService;
+        this.userService = userService;
     }
 
     public CourseGetDto createCourse(CoursePostDto coursePostDto) {
@@ -48,9 +59,6 @@ public class CourseService {
         Pageable pageable = Pageable.ofSize(PAGE_SIZE).withPage(page);
         Page<Course> all = courseRepository.findAll(pageable);
         List<CourseGetDto> res = all.getContent().stream().map(courseMapper::toDto).collect(Collectors.toList());
-        /*for (CourseGetDto c: res) {
-            c.setDegreeGetDto(degreeService.getDegreeById(courseMapper.toEntity().getCourseId()));
-        }*/
 
         return res;
     }
@@ -86,5 +94,25 @@ public class CourseService {
         }
 
         return toUpdate;
+    }
+
+    public CourseGetDto addStudentToCourse(long courseId, long userId) {
+        Optional<Course> optionalCourse = getCourseEntity(courseId);
+        Course toUpdate =  optionalCourse.get();
+        List<User> students = toUpdate.getCourseStudents();
+
+        User userToAdd = userService.getUserById(userId);
+        if (students.contains(userToAdd)) {
+            throw new UserNotAppropriateException("Student already added to course!");
+        }
+        if (!userToAdd.getRole().equals(RoleEnum.ROLE_STUDENT)) {
+            throw new UserNotAppropriateException("User is not a student!");
+        }
+        students.add(userToAdd);
+        toUpdate.setCourseStudents(students);
+        courseRepository.save(toUpdate);
+        System.out.println(toUpdate);
+
+        return courseMapper.toDto(toUpdate);
     }
 }

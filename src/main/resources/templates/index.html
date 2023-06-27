@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>StudyPal</title>
@@ -7,40 +8,30 @@
     <link rel="stylesheet" type="text/css" href="/index.css">
     <link rel="stylesheet" type="text/css" href="/calendar.css">
     <link rel="stylesheet" type="text/css" href="/footer.css">
-    <style>
-        /* Fixed header .*/
-        .fixed-header {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          z-index: 9999;
-        }
-
-        /* Add some top padding to the body to prevent sudden jump when the header is fixed */
-        body {
-          padding-top: 60px;
-        }
-    </style>
 </head>
 <body>
 <div th:replace="header :: header"></div>
-<!-- Rest of the page content goes here -->
-<iframe src="https://calendar.google.com/calendar/embed?src=studypal-384914%40gmail.com&ctz=Europe%2FSofia" style="border: 0" frameborder="0" scrolling="no"></iframe>
+
+
+<div sec:authorize="hasRole('ROLE_TEACHER')">
+    <iframe src="https://calendar.google.com/calendar/embed?src=studypal-384914%40gmail.com&ctz=Europe%2FSofia"
+            style="border: 0" frameborder="0" scrolling="no"></iframe>
+</div>
+
+<div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_COORDINATOR')" class="content">
+    <div class="admin-panel-button">
+        <form action="/adminPanel" method="get">
+            <button type="submit">Admin Panel</button>
+        </form>
+    </div>
+</div>
+
+<div sec:authorize="hasRole('ROLE_STUDENT')">
+    <iframe src="https://calendar.google.com/calendar/embed?src=studypal-384914%40gmail.com&ctz=Europe%2FSofia"
+            style="border: 0" frameborder="0" scrolling="no"></iframe>
+</div>
+
 <div th:replace="footer :: footer"></div>
-<script>
-  window.onscroll = function() {myFunction()};
 
-  var header = document.getElementById("myHeader");
-  var sticky = header.offsetTop;
-
-  function myFunction() {
-    if (window.pageYOffset > sticky) {
-      header.classList.add("fixed-header");
-    } else {
-      header.classList.remove("fixed-header");
-    }
-  }
-</script>
 </body>
 </html>

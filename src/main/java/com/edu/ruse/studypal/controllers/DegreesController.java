@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * Controller defining a RESTful API for degrees.
+ * @author anniexp
  */
 @RestController
 @RequiredArgsConstructor
