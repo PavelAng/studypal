@@ -75,7 +75,9 @@ nav ul ul:hover {
 nav ul ul li:hover > ul {
   display: inherit;
 }
-
+.user-list {
+      display: none;
+    }
 .modal {
       display: none;
       position: fixed;

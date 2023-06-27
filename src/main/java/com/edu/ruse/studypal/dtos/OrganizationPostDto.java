@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class OrganizationPostDto {
+public class  OrganizationPostDto {
     @JsonProperty(value = "name", required = true)
     private String name;
 

@@ -26,7 +26,7 @@ public class FacultiesController {
     private final FacultyService facultyService;
 
     @PostMapping(value = "/add", produces = "application/json")
-    public ResponseEntity<FacultyGetDto> createFaculty(@RequestBody FacultyPostDto facultyPostDto) {
+    public ResponseEntity<FacultyGetDto> createFaculty(FacultyPostDto facultyPostDto) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         FacultyGetDto body = facultyService.createFaculty(facultyPostDto);
 

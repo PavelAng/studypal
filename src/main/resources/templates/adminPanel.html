@@ -13,7 +13,7 @@
   <nav>
     <ul>
       <li><a class="active" href="/">Home</a></li>
-      <li><a href="#">Users</a>
+      <li><a onclick="showUserList()">Users</a>
         <ul>
           <li><a onclick="openForm('add-user-form')">Add</a></li>
           <li><a href="#">Edit</a></li>
@@ -22,14 +22,14 @@
       </li>
       <li><a href="#">Organization</a>
         <ul>
-          <li><a href="#">Add</a></li>
+          <li><a onclick="openForm('add-organization-form')">Add</a></li>
           <li><a href="#">Edit</a></li>
           <li><a href="#">Delete</a></li>
         </ul>
       </li>
-      <li><a href="#">Course</a>
+      <li><a href="#">Faculty</a>
         <ul>
-          <li><a href="#">Add</a></li>
+          <li><a onclick="openForm('add-faculty-form')">Add</a></li>
           <li><a href="#">Edit</a></li>
           <li><a href="#">Delete</a></li>
         </ul>
@@ -94,6 +94,68 @@
     </form>
   </div>
 </div>
+
+<div id="add-organization-form" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeForm('add-organization-form')">&times;</span>
+    <h2>Add Organization</h2>
+    <form action="/organizations" method="post">
+    <!-- Add organization form fields here -->
+      <label for="organization-name">Name:</label>
+      <input type="text" id="organization-name" name="name" required>
+      <br>
+      <label for="description">Description:</label>
+      <input type="text" id="description" name="description" required>
+      <br>
+      <label for="adminOrg">Admin Organization ID:</label>
+      <input type="text" id="adminOrg" name="adminOrg" required>
+      <br>
+      <!-- Add more fields as needed -->
+      <br>
+      <button type="submit">Add Organization</button>
+    </form>
+  </div>
+</div>
+
+<div id="add-faculty-form" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeForm('add-faculty-form')">&times;</span>
+    <h2>Add Faculty</h2>
+    <form action="/faculties/add" method="post">
+      <!-- Add faculty form fields here -->
+      <label for="faculty-name">Name:</label>
+      <input type="text" id="faculty-name" name="name" required>
+      <br>
+      <label for="organizationId">Organization ID:</label>
+      <input type="text" id="organizationId" name="organizationId" required>
+      <br>
+      <!-- Add more fields as needed -->
+      <br>
+      <button type="submit">Add Faculty</button>
+    </form>
+  </div>
+</div>
+
+<div class="user-list">
+  <h2>User List</h2>
+  <input type="text" id="search-bar" placeholder="Search..." onkeyup="searchUsers()">
+
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <!-- Add more columns as needed -->
+    </tr>
+
+    <!-- Iterate over the list of users -->
+    <tr th:each="user : ${users}" class="user-row">
+      <td th:text="${user.id}"></td>
+      <td th:text="${user.username}"></td>
+      <!-- Add more columns as needed -->
+    </tr>
+  </table>
+</div>
+
 <script>
     // Open the popup form
     function openForm(formId) {
@@ -104,6 +166,31 @@
     function closeForm(formId) {
       document.getElementById(formId).style.display = "none";
     }
+
+    // Show the user list
+  function showUserList() {
+    var userList = document.querySelector('.user-list');
+    userList.style.display = "block";
+  }
+
+function searchUsers() {
+    var input = document.getElementById('search-bar');
+    var filter = input.value.toUpperCase();
+    var rows = document.getElementsByClassName('user-row');
+
+    // Iterate over the user rows and hide those that don't match the search query
+    for (var i = 0; i < rows.length; i++) {
+      var username = rows[i].getElementsByTagName('td')[1];
+      if (username) {
+        var usernameValue = username.textContent || username.innerText;
+        if (usernameValue.toUpperCase().indexOf(filter) > -1) {
+          rows[i].style.display = '';
+        } else {
+          rows[i].style.display = 'none';
+        }
+      }
+    }
+  }
   </script>
 </body>
 </html>
