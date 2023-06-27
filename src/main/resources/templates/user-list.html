@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>User List</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    .admin-panel-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin-left: 10px;
+    }
+
+    .edit-btn, .delete-btn {
+      padding: 4px 8px;
+      margin-left: 4px;
+      font-size: 12px;
+      border: none;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .edit-btn:hover, .delete-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .edit-form {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<h1>User List</h1>
+<a href="/adminPanel" class="admin-panel-btn">Admin Panel</a>
+<table>
+  <thead>
+  <tr>
+    <th>Username</th>
+    <th>Password</th>
+    <th>Role</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="user : ${users}">
+    <td th:text="${user.username}"></td>
+    <td th:text="${user.password}"></td>
+    <td th:text="${user.role}"></td>
+    <td>
+      <button class="edit-btn" th:data-user-id="${user.user_id}"
+              th:data-username="${user.username}" th:data-password="${user.password}" th:data-role="${user.role}"
+              onclick="openEditForm(this)">Edit</button>
+      <button class="delete-btn">Delete</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+<!-- Edit Form -->
+<div id="edit-form" class="edit-form">
+  <h2>Edit User</h2>
+  <form id="edit-user-form" action="/users/update" method="post">
+    <input type="hidden" id="userId" name="userId" th:value="*{userId}"/>
+    <label for="edit-username">Username:</label>
+    <input type="text" id="edit-username" name="username" th:value="*{username}"/><br/>
+    <label for="edit-password">Password:</label>
+    <input type="password" id="edit-password" name="password"/><br/>
+    <label for="edit-role">Role:</label>
+    <select id="edit-role" name="role">
+      <option value="ROLE_ADMIN">Admin</option>
+      <option value="ROLE_STUDENT">Student</option>
+    </select><br/>
+    <button type="submit">Save</button>
+    <button type="button" onclick="closeEditForm()">Cancel</button>
+  </form>
+</div>
+
+<script>
+function openEditForm(button) {
+  var userId = button.getAttribute('data-user-id');
+  var username = button.getAttribute('data-username');
+  var password = button.getAttribute('data-password');
+  var role = button.getAttribute('data-role');
+
+  document.getElementById('userId').value = userId;
+  document.getElementById('edit-username').value = username;
+  document.getElementById('edit-password').value = password;
+  document.getElementById('edit-role').value = role;
+  document.getElementById('edit-form').style.display = 'block';
+}
+
+
+  // Function to close the edit form
+  function closeEditForm() {
+    document.getElementById('edit-form').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>

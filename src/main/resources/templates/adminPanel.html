@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>StudyPal Admin Panel</title>
@@ -10,60 +8,46 @@
 <body>
 <header>
   <div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_COORDINATOR')">
-  <nav>
-    <ul>
-      <li><a class="active" href="/">Home</a></li>
-      <li><a onclick="showUserList()">Users</a>
+    <nav>
+      <ul>
+        <li><a class="active" href="/">Home</a></li>
+        <li><a class="active" href="/users">Users</a>
         <ul>
           <li><a onclick="openForm('add-user-form')">Add</a></li>
-          <li><a href="#">Edit</a></li>
-          <li><a href="#">Delete</a></li>
         </ul>
-      </li>
-      <li><a href="#">Organization</a>
-        <ul>
-          <li><a onclick="openForm('add-organization-form')">Add</a></li>
-          <li><a href="#">Edit</a></li>
-          <li><a href="#">Delete</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Faculty</a>
-        <ul>
-          <li><a onclick="openForm('add-faculty-form')">Add</a></li>
-          <li><a href="#">Edit</a></li>
-          <li><a href="#">Delete</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Еvaluation notebook</a>
-        <ul>
-          <li><a href="#">Add</a></li>
-          <li><a href="#">Edit</a></li>
-          <li><a href="#">Delete</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Events</a>
-        <ul>
-          <li><a href="#">Add</a></li>
-          <li><a href="#">Edit</a></li>
-          <li><a href="#">Delete</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Disciplines</a>
-        <ul>
-          <li><a href="#">Add</a></li>
-          <li><a href="#">Edit</a></li>
-          <li><a href="#">Delete</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Groups</a>
-        <ul>
-          <li><a href="#">Add</a></li>
-          <li><a href="#">Edit</a></li>
-          <li><a href="#">Delete</a></li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
+        </li>
+        <li><a href="#">Organization</a>
+          <ul>
+            <li><a onclick="openForm('add-organization-form')">Add</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Faculty</a>
+          <ul>
+            <li><a onclick="openForm('add-faculty-form')">Add</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Еvaluation notebook</a>
+          <ul>
+            <li><a href="#">Add</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Events</a>
+          <ul>
+            <li><a href="#">Add</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Disciplines</a>
+          <ul>
+            <li><a href="#">Add</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Groups</a>
+          <ul>
+            <li><a href="#">Add</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
   </div>
 
 
@@ -74,6 +58,9 @@
   </div>
 
 </header>
+
+<div id="user-list-container"></div>
+
 <div id="add-user-form" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeForm('add-user-form')">&times;</span>
@@ -87,7 +74,7 @@
       <input type="password" id="password" name="password" required>
       <br>
       <label for="role">Role:</label>
-      <input type = "text" id="role" name="role" required>
+      <input type="text" id="role" name="role" required>
       <!-- Add more fields as needed -->
       <br>
       <button type="submit">Add User</button>
@@ -100,7 +87,7 @@
     <span class="close" onclick="closeForm('add-organization-form')">&times;</span>
     <h2>Add Organization</h2>
     <form action="/organizations" method="post">
-    <!-- Add organization form fields here -->
+      <!-- Add organization form fields here -->
       <label for="organization-name">Name:</label>
       <input type="text" id="organization-name" name="name" required>
       <br>
@@ -136,61 +123,15 @@
   </div>
 </div>
 
-<div class="user-list">
-  <h2>User List</h2>
-  <input type="text" id="search-bar" placeholder="Search..." onkeyup="searchUsers()">
-
-  <table>
-    <tr>
-      <th>ID</th>
-      <th>Username</th>
-      <!-- Add more columns as needed -->
-    </tr>
-
-    <!-- Iterate over the list of users -->
-    <tr th:each="user : ${users}" class="user-row">
-      <td th:text="${user.id}"></td>
-      <td th:text="${user.username}"></td>
-      <!-- Add more columns as needed -->
-    </tr>
-  </table>
-</div>
-
 <script>
-    // Open the popup form
-    function openForm(formId) {
-      document.getElementById(formId).style.display = "block";
-    }
 
-    // Close the popup form
-    function closeForm(formId) {
-      document.getElementById(formId).style.display = "none";
-    }
-
-    // Show the user list
-  function showUserList() {
-    var userList = document.querySelector('.user-list');
-    userList.style.display = "block";
+  function openForm(formId) {
+    document.getElementById(formId).style.display = "block";
   }
 
-function searchUsers() {
-    var input = document.getElementById('search-bar');
-    var filter = input.value.toUpperCase();
-    var rows = document.getElementsByClassName('user-row');
-
-    // Iterate over the user rows and hide those that don't match the search query
-    for (var i = 0; i < rows.length; i++) {
-      var username = rows[i].getElementsByTagName('td')[1];
-      if (username) {
-        var usernameValue = username.textContent || username.innerText;
-        if (usernameValue.toUpperCase().indexOf(filter) > -1) {
-          rows[i].style.display = '';
-        } else {
-          rows[i].style.display = 'none';
-        }
-      }
-    }
+  function closeForm(formId) {
+    document.getElementById(formId).style.display = "none";
   }
-  </script>
+</script>
 </body>
 </html>
