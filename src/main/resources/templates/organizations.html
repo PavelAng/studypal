@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Organization List</title>
+    <style>
+       /* CSS for Organization List Page */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.admin-panel-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+.edit-btn, .delete-btn {
+    padding: 4px 8px;
+    margin-left: 4px;
+    font-size: 12px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+    background-color: #0056b3;
+}
+
+.edit-form {
+    display: none;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 50%;
+}
+
+/* Additional styling for form inputs */
+#edit-organization-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#edit-organization-form input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#edit-organization-form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#edit-organization-form button[type="button"] {
+    background-color: #ccc;
+    margin-left: 10px;
+}
+
+    </style>
+</head>
+<body>
+<h1>Organization List</h1>
+<a href="/adminPanel" class="admin-panel-btn">Admin Panel</a>
+<table>
+    <thead>
+    <tr>
+        <th>Organization Name</th>
+        <th>Description</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="organization : ${organizations}">
+        <td th:text="${organization.name}"></td>
+        <td th:text="${organization.description}"></td>
+        <td>
+            <button class="edit-btn" th:data-organization-id="${organization.organizationId}"
+                    th:data-name="${organization.name}" th:data-description="${organization.description}"
+                    onclick="openEditForm(this)">Edit</button>
+            <button class="delete-btn">Delete</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Edit Form -->
+<div id="edit-form" class="edit-form">
+    <h2>Edit Organization</h2>
+    <form id="edit-organization-form" th:action="@{/organizations/update}" method="post">
+        <input type="hidden" id="organizationId" name="organizationId" th:value="${organizationId}"/>
+        <label for="edit-name">Name:</label>
+        <input type="text" id="edit-name" name="name" th:value="${name}"/><br/>
+        <label for="edit-description">Description:</label>
+        <input type="text" id="edit-description" name="description" th:value="${description}"/><br/>
+        <br/>
+        <button type="submit">Save</button>
+        <button type="button" onclick="closeEditForm()">Cancel</button>
+    </form>
+</div>
+
+<script>
+    // JavaScript functions here
+</script>
+
+</body>
+</html>
