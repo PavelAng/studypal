@@ -28,9 +28,31 @@
         </li>
         <li><a href="#">Еvaluation notebook</a>
           <ul>
-            <li><a href="#">Add</a></li>
+            <li><a onclick="openForm('add-evaluation-form')">Add</a></li>
           </ul>
         </li>
+
+        <!-- Add Grades Form -->
+        <div id="add-evaluation-form" class="modal">
+          <div class="modal-content">
+            <span class="close" onclick="closeForm('add-evaluation-form')">&times;</span>
+            <h2>Add Grade to Evaluation Notebook</h2>
+            <form action="/grades/add" method="post">
+              <!-- Add grade form fields here -->
+              <label for="studentId">Student ID:</label>
+              <input type="text" id="studentId" name="studentId" required>
+              <br>
+              <label for="courseId">Course ID:</label>
+              <input type="text" id="courseId" name="courseId" required>
+              <br>
+              <label for="grade">Grade:</label>
+              <input type="text" id="grade" name="grade" required>
+              <!-- Add more fields as needed -->
+              <br>
+              <button type="submit">Add Grade</button>
+            </form>
+          </div>
+        </div>
         <li><a href="#">Events</a>
           <ul>
             <li><a href="#">Add</a></li>

@@ -92,8 +92,10 @@ nav ul ul li:hover > ul {
 
     .modal-content {
       background-color: #fefefe;
+      color: black;
       margin: 15% auto;
       padding: 20px;
       border: 1px solid #888;
       width: 80%;
     }
+
