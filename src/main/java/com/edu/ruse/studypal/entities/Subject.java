@@ -13,13 +13,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity(name = "course")
-@Table(name = "course")
-public class Course {
-    @Column(name = "course_id", nullable = false)
+@Entity(name = "subject")
+@Table(name = "subject")
+public class Subject {
+    @Column(name = "subject_id", nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long courseId;
+    private Long subjectId;
 
     @Column
     private String name;
@@ -28,20 +28,22 @@ public class Course {
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "degree_id", nullable = false)
-    private Degree degree;
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
+
+    @Column
+    private List<String> topics;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
-    @JoinTable(name = "students_course",
+    @JoinTable(name = "teachers_subjects",
             joinColumns = {
-                    @JoinColumn(name = "course_id", referencedColumnName = "course_id",
+                    @JoinColumn(name = "subject_id", referencedColumnName = "subject_id",
                             nullable = true, updatable = true)},
             inverseJoinColumns = {
                     @JoinColumn(
-                            name = "student_id", referencedColumnName = "user_id",
+                            name = "teacher_id", referencedColumnName = "user_id",
                             nullable = true, updatable = true)})
-    private List<User> courseStudents;
+    private List<User> subjectTeachers;
 
-    @OneToMany(targetEntity = Subject.class, mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Subject> subjectsList;
+    //to do - add one to many to events
 }
