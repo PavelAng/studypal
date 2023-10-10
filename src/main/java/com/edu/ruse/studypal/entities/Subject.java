@@ -46,4 +46,6 @@ public class Subject {
     private List<User> subjectTeachers;
 
     //to do - add one to many to events
+    @OneToMany(targetEntity = Event.class, mappedBy = "subject", cascade = CascadeType.ALL)
+    private List<Event> events;
 }

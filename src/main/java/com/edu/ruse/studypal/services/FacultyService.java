@@ -91,6 +91,7 @@ public FacultyGetDto createFaculty(FacultyPostDto facultyPostDto) {
         if (!Objects.equals(entityToUpdate.getName(), name)) {
             entityToUpdate.setName(name);
         }
+
         facultyRepository.save(entityToUpdate);
 
         return facultyMapper.toDto(entityToUpdate);

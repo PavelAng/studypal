@@ -71,11 +71,12 @@ public class CourseService {
         }
         Course course = optional.get();
         CourseGetDto res = courseMapper.toDto(course);
-        res.setDegreeGetDto(degreeService.getDegreeById(course.getCourseId()));
+        //??????????????????
+        res.setDegreeGetDto(degreeService.getDegreeById(course.getDegree().getDegreeId()));
 
         return res;
     }
-
+    //?????????????????? to do
     public CourseGetDto updateCourse(long id, CoursePostDto coursePostDto) {
         return null;
     }
