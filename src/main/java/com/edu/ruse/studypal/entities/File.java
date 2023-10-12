@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import java.util.List;
 
 /**
  * @author anniexp
@@ -28,4 +29,13 @@ public class File {
 
     @Column(name = "file_path", nullable = false)
     private String filePath;
+
+    @ManyToMany(mappedBy = "eventMaterials", fetch = FetchType.LAZY)
+    private List<Event> materialInEvents;
+
+    @ManyToMany(mappedBy = "eventExercises", fetch = FetchType.LAZY)
+    private List<Event> exerciseInEvents;
+
+    @ManyToMany(mappedBy = "eventSolutions", fetch = FetchType.LAZY)
+    private List<Event> solutionInEvents;
 }

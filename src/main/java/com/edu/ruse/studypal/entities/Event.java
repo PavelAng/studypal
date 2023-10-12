@@ -46,13 +46,46 @@ public class Event {
     private Instant eventEnd;
 
     //event files, exercises to students, student solutions
-    @Column(name = "files", nullable = true)
-    private List<String> files;
+  /*  @Column(name = "files", nullable = true)
+    private List<String> materials;
 
     @Column(name = "exercises", nullable = true)
     private List<String> exercises;
 
     @Column(name = "solutions", nullable = true)
-    private List<String> solutions;
+    private List<String> solutions;*/
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
+    @JoinTable(name = "events_materials",
+            joinColumns = {
+                    @JoinColumn(name = "event_id", referencedColumnName = "event_id",
+                            nullable = true, updatable = true)},
+            inverseJoinColumns = {
+                    @JoinColumn(
+                            name = "material_id",
+                            nullable = true, updatable = true)})
+    private List<File> eventMaterials;
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
+    @JoinTable(name = "events_exercises",
+            joinColumns = {
+                    @JoinColumn(name = "event_id", referencedColumnName = "event_id",
+                            nullable = true, updatable = true)},
+            inverseJoinColumns = {
+                    @JoinColumn(
+                            name = "exercise_id",
+                            nullable = true, updatable = true)})
+    private List<File> eventExercises;
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
+    @JoinTable(name = "events_solutions",
+            joinColumns = {
+                    @JoinColumn(name = "event_id", referencedColumnName = "event_id",
+                            nullable = true, updatable = true)},
+            inverseJoinColumns = {
+                    @JoinColumn(
+                            name = "solution_id",
+                            nullable = true, updatable = true)})
+    private List<File> eventSolutions;
 
 }
