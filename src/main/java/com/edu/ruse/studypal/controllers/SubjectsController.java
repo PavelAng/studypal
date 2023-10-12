@@ -79,5 +79,9 @@ public class SubjectsController {
         return new ResponseEntity<>(status);
     }
 
-
+    //to do
+    //1 - make a get all student's course's subjects
+    //2 - make a get all teachers reached subjects
+    //3 - make  only teachers who teach a subject to be able to create-edit-delete events
+    //4 - make a get all events for logged user
 }

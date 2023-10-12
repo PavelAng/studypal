@@ -17,7 +17,7 @@ import java.time.Instant;
 @Data
 public class EventPostDto {
     @JsonProperty("type")
-    private EventTypeEnum type;
+    private String type;
 
     @JsonProperty("name")
     private String name;
@@ -26,11 +26,9 @@ public class EventPostDto {
     private String description;
 
     @JsonProperty("eventStart")
-    @Timestamp
     private Instant eventStart;
 
     @JsonProperty("eventEnd")
-    @Timestamp
     private Instant eventEnd;
 
     @JsonProperty("subject_id")
