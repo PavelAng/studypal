@@ -1,5 +1,8 @@
 package com.edu.ruse.studypal.security.jwt;
 
+import com.edu.ruse.studypal.entities.Course;
+import com.edu.ruse.studypal.entities.User;
+import com.edu.ruse.studypal.repositories.UserRepository;
 import com.edu.ruse.studypal.security.services.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -15,12 +18,15 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class JwtUtils {
    @Autowired
    UserDetailsService userDetailsService;
   private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+  @Autowired
+  UserRepository userRepository;
 
   @Value("${studypal.app.jwtSecret}")
   private String jwtSecret;
@@ -50,10 +56,25 @@ public class JwtUtils {
   }
   public String getUserRoleFromJwtToken(String token) {
     String username = getUserNameFromJwtToken(token);
-    UserDetails userDetails = userDetailsService.loadUserByUsername(username);;
+    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
     String res = String.valueOf(userDetails.getAuthorities().iterator().next());
    return res;
   }
+
+  public Long getUserIdFromJwtToken(String token) {
+    String username = getUserNameFromJwtToken(token);
+    User user = userRepository.findByUsername(username).get();
+
+    return user.getUser_id();
+  }
+
+  public List<Course> getUserCourse(String token) {
+    String username = getUserNameFromJwtToken(token);
+    User user = userRepository.findByUsername(username).get();
+
+    return user.getCurrentCourses();
+  }
+
   public boolean validateJwtToken(String authToken) {
     try {
       Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);

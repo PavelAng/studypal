@@ -1,19 +1,25 @@
 package com.edu.ruse.studypal.services;
 
+import com.edu.ruse.studypal.controllers.AuthController;
 import com.edu.ruse.studypal.controllers.FacultiesController;
 import com.edu.ruse.studypal.dtos.SubjectGetDto;
 import com.edu.ruse.studypal.dtos.SubjectPostDto;
+import com.edu.ruse.studypal.entities.Course;
 import com.edu.ruse.studypal.entities.Subject;
+import com.edu.ruse.studypal.entities.User;
 import com.edu.ruse.studypal.exceptions.NotFoundOrganizationException;
 import com.edu.ruse.studypal.exceptions.NotValidJsonBodyException;
 import com.edu.ruse.studypal.mappers.CourseMapper;
 import com.edu.ruse.studypal.mappers.SubjectMapper;
 import com.edu.ruse.studypal.repositories.SubjectRepository;
+import com.edu.ruse.studypal.security.jwt.JwtUtils;
 import jakarta.persistence.EntityNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +36,8 @@ public class SubjectService {
     private final SubjectRepository subjectRepository;
     private final CourseService courseService;
     private final CourseMapper courseMapper;
+    @Autowired
+    private JwtUtils jwtUtils;
 
 
     private static final int PAGE_SIZE = 2;
@@ -119,4 +127,12 @@ public class SubjectService {
         return toUpdate;
     }
 
+    public List<SubjectGetDto> getUserSubjects() {
+        String jwt = AuthController.jwt;
+        List<Course> userCourses = jwtUtils.getUserCourse(jwt);
+        List<Subject> subjectList = userCourses.stream().findFirst().map(Course::getSubjectsList).get();
+        List<SubjectGetDto> res = subjectList.stream().map(subjectMapper::toDto).toList();
+
+        return res;
+    }
 }
