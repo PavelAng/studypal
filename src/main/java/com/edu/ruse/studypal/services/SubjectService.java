@@ -5,8 +5,8 @@ import com.edu.ruse.studypal.controllers.FacultiesController;
 import com.edu.ruse.studypal.dtos.SubjectGetDto;
 import com.edu.ruse.studypal.dtos.SubjectPostDto;
 import com.edu.ruse.studypal.entities.Course;
+import com.edu.ruse.studypal.entities.RoleEnum;
 import com.edu.ruse.studypal.entities.Subject;
-import com.edu.ruse.studypal.entities.User;
 import com.edu.ruse.studypal.exceptions.NotFoundOrganizationException;
 import com.edu.ruse.studypal.exceptions.NotValidJsonBodyException;
 import com.edu.ruse.studypal.mappers.CourseMapper;
@@ -19,9 +19,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -40,7 +40,7 @@ public class SubjectService {
     private JwtUtils jwtUtils;
 
 
-    private static final int PAGE_SIZE = 2;
+    private static final int PAGE_SIZE = 5;
     private static final Logger LOGGER = LogManager.getLogger(FacultiesController.class);
 
     public SubjectService(SubjectMapper subjectMapper, SubjectRepository subjectRepository, CourseService courseService, CourseMapper courseMapper) {
@@ -127,12 +127,42 @@ public class SubjectService {
         return toUpdate;
     }
 
-    public List<SubjectGetDto> getUserSubjects() {
+    /**
+     *
+     * @return subjects to which user permissions to see
+     */
+    public List<SubjectGetDto> getUserSubjects(int page) {
         String jwt = AuthController.jwt;
-        List<Course> userCourses = jwtUtils.getUserCourse(jwt);
-        List<Subject> subjectList = userCourses.stream().findFirst().map(Course::getSubjectsList).get();
-        List<SubjectGetDto> res = subjectList.stream().map(subjectMapper::toDto).toList();
+        String userRole = jwtUtils.getUserRoleFromJwtToken(jwt);
 
-        return res;
+        if (userRole.equals(RoleEnum.ROLE_TEACHER.name()) || userRole.equals(RoleEnum.ROLE_COORDINATOR.name())) {
+            return getTeachersSubjects(jwt);
+        }
+        else if (userRole.equals(RoleEnum.ROLE_STUDENT.name())) {
+            System.out.println();
+            return getStudentSubjects(jwt);
+        }
+        else if (userRole.equals(RoleEnum.ROLE_ADMIN.name())) {
+           return getAllSubjects(page);
+        }
+        else {
+            LOGGER.info("User not valid!");
+            throw new EntityNotFoundException("User not valid!");
+        }
+    }
+
+    public List<SubjectGetDto> getStudentSubjects(String jwt) {
+
+        List<Course> userCourses = jwtUtils.getUserCourse(jwt);
+
+        List<Subject> subjectList = userCourses.stream().findFirst().map(Course::getSubjectsList).orElse(new ArrayList<>());
+
+        return subjectList.stream().map(subjectMapper::toDto).toList();
+    }
+
+    public List<SubjectGetDto> getTeachersSubjects(String jwt) {
+        List<SubjectGetDto> subjectList = jwtUtils.getTeacherSubjects(jwt).stream().map(subjectMapper::toDto).toList();
+
+        return subjectList;
     }
 }

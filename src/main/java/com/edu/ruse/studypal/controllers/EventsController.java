@@ -92,5 +92,11 @@ public class EventsController {
     // add add Add Exercise To Event method
     // add add Add Solution To Event method
 
+    //4 - make a get all events for logged user
+    @GetMapping("/userEvents")
+    public List<EventGetDto> getLoggedUserEvents() {
+        return eventService.getUserEvents();
+    }
+
 }
 

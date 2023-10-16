@@ -81,11 +81,12 @@ public class SubjectsController {
 
     //to do
     //1 - make a get all student's course's subjects - done
-    //2 - make a get all teachers reached subjects
-    //3 - make  only teachers who teach a subject to be able to create-edit-delete events
-    //4 - make a get all events for logged user
-    public List<SubjectGetDto> getUserSubjects() {
-        return subjectService.getUserSubjects();
+    //2 - make a get all teachers reached subjects - done
+    //3 - make  only teachers who teach a subject to be able to create-edit-delete events - done
+    //4 - make a get all events for logged user - done
+    @GetMapping("/userSubjects")
+    public List<SubjectGetDto> getUserSubjects(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
+        return subjectService.getUserSubjects(page);
     }
 
 }
