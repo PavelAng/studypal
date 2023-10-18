@@ -40,7 +40,7 @@ public class SubjectService {
     private JwtUtils jwtUtils;
 
 
-    private static final int PAGE_SIZE = 5;
+    private static final int PAGE_SIZE = 10;
     private static final Logger LOGGER = LogManager.getLogger(FacultiesController.class);
 
     public SubjectService(SubjectMapper subjectMapper, SubjectRepository subjectRepository, CourseService courseService, CourseMapper courseMapper) {

@@ -12,7 +12,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Entity(name = "subject")
 @Table(name = "subject")
 public class Subject {

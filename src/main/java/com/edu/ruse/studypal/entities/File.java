@@ -15,7 +15,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Entity(name = "files")
 @Table(name = "files")
 public class File {
@@ -27,8 +26,11 @@ public class File {
     @Column(name = "file_name", nullable = false)
     private String fileName;
 
-    @Column(name = "file_path", nullable = false)
+    @Column(name = "file_path", nullable = true)
     private String filePath;
+
+    @Column(name = "file_content", nullable = true)
+    private byte[] fileContent;
 
     @ManyToMany(mappedBy = "eventMaterials", fetch = FetchType.LAZY)
     private List<Event> materialInEvents;

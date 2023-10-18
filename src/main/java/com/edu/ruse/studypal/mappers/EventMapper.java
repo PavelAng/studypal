@@ -12,8 +12,10 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface EventMapper {
     @Mapping(target = "subjectGetDto", source = "subject")
+    @Mapping(target = "type", source = "type")
     EventGetDto toDto(Event event);
 
+    @Mapping(target = "subject", source = "subjectGetDto")
     Event toEntity(EventGetDto eventGetDto);
 
     EventPostDto toPostDto(Event event);

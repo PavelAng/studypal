@@ -26,4 +26,6 @@ public class EventGetDto {
     private Instant eventStart;
     @JsonProperty("eventEnd")
     private Instant eventEnd;
+    @JsonProperty("type")
+    private String type;
 }

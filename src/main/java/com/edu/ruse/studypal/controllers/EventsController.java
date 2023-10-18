@@ -2,17 +2,21 @@ package com.edu.ruse.studypal.controllers;
 
 import com.edu.ruse.studypal.dtos.EventGetDto;
 import com.edu.ruse.studypal.dtos.EventPostDto;
+import com.edu.ruse.studypal.dtos.FileGetDto;
 import com.edu.ruse.studypal.exceptions.NotFoundOrganizationException;
 import com.edu.ruse.studypal.services.EventService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.tomcat.util.http.fileupload.MultipartStream;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -88,15 +92,115 @@ public class EventsController {
         return new ResponseEntity<>(status);
     }
     //to do
-    // add add Add Material To Event method
+    // add add Add Material To Event method - done
     // add add Add Exercise To Event method
     // add add Add Solution To Event method
 
-    //4 - make a get all events for logged user
+    /**
+     * @return all events for logged user
+     */
     @GetMapping("/userEvents")
     public List<EventGetDto> getLoggedUserEvents() {
         return eventService.getUserEvents();
     }
 
+    /**
+     * @return list of all material files from event
+     */
+    @GetMapping("/{id}/materials")
+    public ResponseEntity<List<FileGetDto>> getAllMaterialsByEvent(@PathVariable(value = "id") long id)  {
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        List<FileGetDto> files = eventService.getMaterialsGetDtos(id);
+
+        return new ResponseEntity<>(files, httpStatus);
+    }
+
+    /**
+     * @return list of all exercise files from event
+     */
+    @GetMapping("/{id}/exercises")
+    public ResponseEntity<List<FileGetDto>> getAllExercisesByEvent(@PathVariable(value = "id") long id)  {
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        List<FileGetDto> files = eventService.getExercisesGetDtos(id);
+
+        return new ResponseEntity<>(files, httpStatus);
+    }
+
+    /**
+     * @return list of all solution files from event
+     */
+    @GetMapping("/{id}/solutions")
+    public ResponseEntity<List<FileGetDto>> getAllSolutionsByEvent(@PathVariable(value = "id") long id)  {
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        List<FileGetDto> files = eventService.getSolutionGetDtos(id);
+
+        return new ResponseEntity<>(files, httpStatus);
+    }
+
+    @PutMapping("/{id}/addMaterial")
+    public EventGetDto addFileMaterial(
+            @PathVariable("id") long id,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam String filePath
+                              // FilePostDto filePostDto
+    ) throws IOException {
+        EventGetDto res = eventService.getEventById(id);
+
+        if (res == null) {
+            LOGGER.info("Event with id {} was not found, returning 404.", id);
+            throw new NotFoundOrganizationException("Event with id " + id + " was not found");
+        }
+
+        if (file.getSize() >= 1048576) {
+            throw new MultipartStream.IllegalBoundaryException("File is too big!!!");
+        }
+
+        return eventService.addMaterialToEvent(file, res, filePath);
+    }
+
+    @PutMapping("/{id}/addExercise")
+    public EventGetDto addFileExercise(
+            @PathVariable("id") long id,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam String filePath
+            // FilePostDto filePostDto
+    ) throws IOException {
+        EventGetDto res = eventService.getEventById(id);
+
+        if (res == null) {
+            LOGGER.info("Event with id {} was not found, returning 404.", id);
+            throw new NotFoundOrganizationException("Event with id " + id + " was not found");
+        }
+
+        if (file.getSize() >= 1048576) {
+            throw new MultipartStream.IllegalBoundaryException("File is too big!!!");
+        }
+
+        return eventService.addExerciseToEvent(file, res, filePath);
+    }
+
+    @PutMapping("/{id}/addSolution")
+    public EventGetDto addFileSolution(
+            @PathVariable("id") long id,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam String filePath
+            // FilePostDto filePostDto
+    ) throws IOException {
+        EventGetDto res = eventService.getEventById(id);
+
+        if (res == null) {
+            LOGGER.info("Event with id {} was not found, returning 404.", id);
+            throw new NotFoundOrganizationException("Event with id " + id + " was not found");
+        }
+
+        if (file.getSize() >= 1048576) {
+            throw new MultipartStream.IllegalBoundaryException("File is too big!!!");
+        }
+
+        return eventService.addSolutionToEvent(file, res, filePath);
+    }
 }
 

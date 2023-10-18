@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class FileService {
     private final FileRepository fileRepository;
     private final FileMapper fileMapper;
-    private static final int PAGE_SIZE = 2;
+    private static final int PAGE_SIZE = 10;
     private static final Logger LOGGER = LogManager.getLogger(FilesController.class);
 
     @Autowired
@@ -65,10 +65,14 @@ public class FileService {
         return body;
     }
 
-    public FileGetDto createFile(FilePostDto filePostDto) {
+    public File createFile(FilePostDto filePostDto) {
         File file = fileMapper.toEntityFromPostDto(filePostDto);
+        System.out.println(file);
         file.setFileId((long) (fileRepository.findAll().size() + 1));
+        file.setFileContent(filePostDto.getFileContent());
         File res = fileRepository.save(file);
-        return fileMapper.toDto(res);
+        System.out.println(res);
+       // return fileMapper.toDto(res);
+        return res;
     }
 }
