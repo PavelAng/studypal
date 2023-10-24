@@ -18,6 +18,6 @@ public class FileGetDto {
     @JsonProperty("fileName")
     private String fileName;
 
-    @JsonProperty("filePath")
-    private String filePath;
+    @JsonProperty("fileTypee")
+    private String fileTypee;
 }

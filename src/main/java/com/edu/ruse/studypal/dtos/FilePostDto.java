@@ -17,8 +17,8 @@ public class FilePostDto {
     @JsonProperty("fileName")
     private String fileName;
 
-    @JsonProperty("filePath")
-    private String filePath;
+    @JsonProperty("fileTypee")
+    private String fileTypee;
 
     @JsonProperty("fileContent")
     private byte[] fileContent;

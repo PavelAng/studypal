@@ -3,12 +3,14 @@ package com.edu.ruse.studypal.controllers;
 import com.edu.ruse.studypal.dtos.*;
 import com.edu.ruse.studypal.entities.File;
 import com.edu.ruse.studypal.services.FileService;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,49 +41,34 @@ public class FilesController {
         return new ResponseEntity<>(body, httpStatus);
     }
 
-    /*@GetMapping("/{id}")
-    public ModelAndView getById(
-            @PathVariable(value = "id") long id) throws FileNotFoundException {
-
-        File file = fileService.findById(id).orElseThrow(() -> new FileNotFoundException("File Not Found"));
-        //make it from link to show the buff image pls
-        String linkToSource = file.getFilePath();
-
-        return new ModelAndView("redirect:" + linkToSource);
-    }*/
-
     /**
      * gets file, file is downloaded when link is loaded
      *
      * @throws IOException
      */
     @GetMapping("/{id}/download")
-    public void showImage(
-            // @Param("id") Long id,
-            @PathVariable(value = "id") long id, HttpServletResponse response) throws IOException {
+    public ResponseEntity<?> downloadFile(@PathVariable Long id) throws FileNotFoundException {
         File file = fileService.findById(id).orElseThrow(() -> new FileNotFoundException("File Not Found"));
 
-        response.setContentType("image/jpeg, image/jpg, image/png, image/gif, image/pdf, application/pdf");
-        response.getOutputStream().write(file.getFileContent());
-        response.addHeader("content-disposition", "inline; filename=\"" + file.getFileName());
-        response.getOutputStream().close();
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(file.getFileTypee()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName())
+                .body(new ByteArrayResource(file.getFileContent()));
     }
 
     /**
      * open file in browser
      *
      * @param id - id of file
-     * @throws ServletException
-     * @throws IOException
      */
     @GetMapping("/{id}/open")
     public void showFileContentInBrowser(
             //@Param("id") Long id,
             @PathVariable(value = "id") long id, HttpServletResponse response) throws IOException {
         File file = fileService.findById(id).orElseThrow(() -> new FileNotFoundException("File Not Found"));
-        System.out.println(file);
 
-        response.setContentType("image/jpeg, image/jpg, image/png, image/gif, image/pdf, application/pdf");
+        response.setContentType(file.getFileTypee());
+        //  + ", image/jpeg, image/jpg, image/png, image/gif");
         response.getOutputStream().write(file.getFileContent());
         response.addHeader("content-disposition", "inline");
         response.getOutputStream().close();

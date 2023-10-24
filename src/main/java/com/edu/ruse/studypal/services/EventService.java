@@ -12,14 +12,12 @@ import com.edu.ruse.studypal.mappers.EventMapper;
 import com.edu.ruse.studypal.mappers.FileMapper;
 import com.edu.ruse.studypal.repositories.EventRepository;
 import com.edu.ruse.studypal.security.jwt.JwtUtils;
-import jakarta.persistence.EntityNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -93,9 +91,13 @@ public class EventService {
             throw new NotFoundOrganizationException("Could not extract Event entity with id " + id);
         }
         Event event = eventOptional.get();
-        System.out.println(event.getType());
 
-        return eventMapper.toDto(event);
+        EventGetDto res = eventMapper.toDto(event);
+        res.setEventExercises(event.getEventExercises().stream().map(fileMapper::toDto).collect(Collectors.toList()));
+        res.setEventSolutions(event.getEventSolutions().stream().map(fileMapper::toDto).collect(Collectors.toList()));
+        res.setEventMaterials(event.getEventMaterials().stream().map(fileMapper::toDto).collect(Collectors.toList()));
+
+        return res;
     }
 
     //to do
@@ -155,40 +157,38 @@ public class EventService {
      * @param file
      * @param
      */
-    public EventGetDto addMaterialToEvent(MultipartFile file, EventGetDto eventGetDto,
-                                          @RequestBody String filePath) throws IOException {
+    public EventGetDto addMaterialToEvent(MultipartFile file, EventGetDto eventGetDto) throws IOException {
         //set filePostDto
-        FilePostDto newFile = generateFilePostDto(file, filePath);
+        FilePostDto newFile = generateFilePostDto(file);
         File dto = fileService.createFile(newFile);
 
         return setMaterialToEvent(eventMapper.toEntity(eventGetDto), dto);
     }
 
-    public EventGetDto addExerciseToEvent(MultipartFile file, EventGetDto eventGetDto,
-                                          @RequestBody String filePath) throws IOException {
+    public EventGetDto addExerciseToEvent(MultipartFile file, EventGetDto eventGetDto) throws IOException {
         //set filePostDto
-        FilePostDto newFile = generateFilePostDto(file, filePath);
+        FilePostDto newFile = generateFilePostDto(file);
         File dto = fileService.createFile(newFile);
+        Event event = eventMapper.toEntity(eventGetDto);
 
-        return setExerciseToEvent(eventMapper.toEntity(eventGetDto), dto);
+        return setExerciseToEvent(event, dto);
     }
 
-    public EventGetDto addSolutionToEvent(MultipartFile file, EventGetDto eventGetDto,
-                                          @RequestBody String filePath) throws IOException {
+    public EventGetDto addSolutionToEvent(MultipartFile file, EventGetDto eventGetDto) throws IOException {
         //set filePostDto
-        FilePostDto newFile = generateFilePostDto(file, filePath);
+        FilePostDto newFile = generateFilePostDto(file);
         File dto = fileService.createFile(newFile);
-
+        //after file is created, add solution file to event
         return setSolutionToEvent(eventMapper.toEntity(eventGetDto), dto);
     }
 
-
-    private FilePostDto generateFilePostDto(MultipartFile file, String filePath) throws IOException {
+    //modify request body from multipart file and data form to json post dto
+    private FilePostDto generateFilePostDto(MultipartFile file) throws IOException {
         FilePostDto newFile = new FilePostDto();
         String fileName = file.getOriginalFilename();
         newFile.setFileName(fileName);
         newFile.setFileContent(file.getBytes());
-        newFile.setFilePath(filePath);
+        newFile.setFileTypee(file.getContentType());
 
         return newFile;
     }
@@ -205,17 +205,23 @@ public class EventService {
     }
 
     private EventGetDto setExerciseToEvent(Event event, File savedFile) {
-        List<File> materials = event.getEventExercises();
-        materials.add(savedFile);
-        event.setEventExercises(materials);
+        List<File> exercises = event.getEventExercises();
+        if (exercises == null) {
+            exercises = new ArrayList<>();
+        }
+        exercises.add(savedFile);
+        event.setEventExercises(exercises);
         Event res = eventRepository.save(event);
         return eventMapper.toDto(res);
     }
 
     private EventGetDto setSolutionToEvent(Event event, File savedFile) {
-        List<File> materials = event.getEventSolutions();
-        materials.add(savedFile);
-        event.setEventSolutions(materials);
+        List<File> solutions = event.getEventSolutions();
+        if (solutions == null) {
+            solutions = new ArrayList<>();
+        }
+        solutions.add(savedFile);
+        event.setEventSolutions(solutions);
         Event res = eventRepository.save(event);
         return eventMapper.toDto(res);
     }

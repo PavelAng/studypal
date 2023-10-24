@@ -1,7 +1,6 @@
 package com.edu.ruse.studypal.services;
 
 import com.edu.ruse.studypal.controllers.FilesController;
-import com.edu.ruse.studypal.dtos.FileGetDto;
 import com.edu.ruse.studypal.dtos.FileGetSlimDto;
 import com.edu.ruse.studypal.dtos.FilePostDto;
 import com.edu.ruse.studypal.entities.File;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -60,19 +60,15 @@ public class FileService {
     public List<FileGetSlimDto> getAllFiles(int page) {
         Pageable pageable = Pageable.ofSize(PAGE_SIZE).withPage(page);
         Page<File> all = fileRepository.findAll(pageable);
-        List<FileGetSlimDto> body = all.getContent().stream().map(fileMapper::toSlimDto).collect(Collectors.toList());
 
-        return body;
+        return all.getContent().stream().map(fileMapper::toSlimDto).collect(Collectors.toList());
     }
 
     public File createFile(FilePostDto filePostDto) {
         File file = fileMapper.toEntityFromPostDto(filePostDto);
-        System.out.println(file);
         file.setFileId((long) (fileRepository.findAll().size() + 1));
-        file.setFileContent(filePostDto.getFileContent());
-        File res = fileRepository.save(file);
-        System.out.println(res);
-       // return fileMapper.toDto(res);
-        return res;
+
+        return fileRepository.save(file);
     }
 }
+

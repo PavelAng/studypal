@@ -9,8 +9,6 @@ import org.mapstruct.Mapper;
  */
 @Mapper(componentModel = "spring")
 public interface FileMapper {
-  //  List<FileGetSlimDto> fileSetToFileGetSlimDtoSet(ArrayList<File> files);
-
     FileGetDto toDto(File file);
 
     FileGetSlimDto toSlimDto(File file);

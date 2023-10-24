@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
  * @author anniexp
@@ -28,4 +29,10 @@ public class EventGetDto {
     private Instant eventEnd;
     @JsonProperty("type")
     private String type;
+    @JsonProperty("eventMaterials")
+    private List<FileGetDto> eventMaterials;
+    @JsonProperty("eventExercises")
+    private List<FileGetDto> eventExercises;
+    @JsonProperty("eventSolutions")
+    private List<FileGetDto> eventSolutions;
 }

@@ -26,8 +26,8 @@ public class File {
     @Column(name = "file_name", nullable = false)
     private String fileName;
 
-    @Column(name = "file_path", nullable = true)
-    private String filePath;
+    @Column(name = "file_type", nullable = true)
+    private String fileTypee;
 
     @Column(name = "file_content", nullable = true)
     private byte[] fileContent;
