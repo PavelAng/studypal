@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class OrganizationService {
     private final OrganizationRepository organizationRepository;
     private final OrganizationMapper organizationMapper;
-    private static final int PAGE_SIZE = 2;
+    private static final int PAGE_SIZE = 10;
     private static final Logger LOGGER = LogManager.getLogger(OrganizationsController.class);
 
     private final UserDetailsServiceImpl userService;

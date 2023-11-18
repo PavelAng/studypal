@@ -30,7 +30,7 @@ public class DegreeService {
     private final DegreeMapper degreeMapper;
     private final OrganizationService organizationService;
     private final FacultyService facultyService;
-    private static final int PAGE_SIZE = 2;
+    private static final int PAGE_SIZE = 10;
     private static final Logger LOGGER = LogManager.getLogger(DegreesController.class);
 
     @Autowired

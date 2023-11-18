@@ -2,15 +2,22 @@ package com.edu.ruse.studypal.controllers;
 
 import com.edu.ruse.studypal.dtos.OrganizationDto;
 import com.edu.ruse.studypal.dtos.OrganizationPostDto;
+import com.edu.ruse.studypal.entities.Organization;
+import com.edu.ruse.studypal.entities.User;
 import com.edu.ruse.studypal.exceptions.NotFoundOrganizationException;
+import com.edu.ruse.studypal.repositories.OrganizationRepository;
+import com.edu.ruse.studypal.repositories.UserRepository;
 import com.edu.ruse.studypal.services.OrganizationService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -22,6 +29,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("organizations")
 public class OrganizationsController {
+
+
+    OrganizationRepository organizationRepository;
     private static final Logger LOGGER = LogManager.getLogger(OrganizationsController.class);
     private final OrganizationService organizationService;
 
@@ -33,10 +43,24 @@ public class OrganizationsController {
         return new ResponseEntity<>(body,httpStatus);
     }
 
+//    @GetMapping
+//    public List<OrganizationDto> getAllOrganizations(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
+//        return organizationService.getAllOrganizations(page);
+//    }
+
     @GetMapping
-    public List<OrganizationDto> getAllOrganizations(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
-        return organizationService.getAllOrganizations(page);
+    public ModelAndView getAllOrganization(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
+        ModelAndView getAllOrganization = new ModelAndView();
+        getAllOrganization.addObject("organizations", organizationService.getAllOrganizations(page));
+        return getAllOrganization;
     }
+
+//    @GetMapping("/organizations")
+//    public String getOrganizations(Model model) {
+//        List<Organization> organizations = organizationRepository.findAll();
+//        model.addAttribute("organizations", organizations);
+//        return "organizations";
+//    }
 
     @GetMapping("{id}")
     public OrganizationDto getOrganizationById(@PathVariable("id") long id, @RequestParam(name = "page", required = false, defaultValue = "0") int page) {

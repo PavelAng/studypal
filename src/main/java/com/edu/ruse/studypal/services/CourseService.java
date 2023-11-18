@@ -31,7 +31,7 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
     private final DegreeService degreeService;
-    private static final int PAGE_SIZE = 2;
+    private static final int PAGE_SIZE = 10;
     private static final Logger LOGGER = LogManager.getLogger(CoursesController.class);
     private final UserDetailsServiceImpl userService;
 
@@ -71,11 +71,12 @@ public class CourseService {
         }
         Course course = optional.get();
         CourseGetDto res = courseMapper.toDto(course);
-        res.setDegreeGetDto(degreeService.getDegreeById(course.getCourseId()));
+        //??????????????????
+        res.setDegreeGetDto(degreeService.getDegreeById(course.getDegree().getDegreeId()));
 
         return res;
     }
-
+    //?????????????????? to do
     public CourseGetDto updateCourse(long id, CoursePostDto coursePostDto) {
         return null;
     }

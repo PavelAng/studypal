@@ -35,7 +35,7 @@ public class FacultyService {
     private final OrganizationService organizationService;
     private final UserDetailsServiceImpl userService;
 
-    private static final int PAGE_SIZE = 2;
+    private static final int PAGE_SIZE = 10;
     private static final Logger LOGGER = LogManager.getLogger(FacultiesController.class);
 
     @Autowired
@@ -91,6 +91,7 @@ public FacultyGetDto createFaculty(FacultyPostDto facultyPostDto) {
         if (!Objects.equals(entityToUpdate.getName(), name)) {
             entityToUpdate.setName(name);
         }
+
         facultyRepository.save(entityToUpdate);
 
         return facultyMapper.toDto(entityToUpdate);

@@ -12,7 +12,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Entity(name = "course")
 @Table(name = "course")
 public class Course {
@@ -42,4 +41,6 @@ public class Course {
                             nullable = true, updatable = true)})
     private List<User> courseStudents;
 
+    @OneToMany(targetEntity = Subject.class, mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Subject> subjectsList;
 }

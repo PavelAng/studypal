@@ -44,15 +44,23 @@ public class User {
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
 
+    //if user is faculty coordinator, his coordinated faculties
     @ManyToMany(mappedBy = "coordinators", fetch = FetchType.LAZY)
     private List<Faculty> coordinatedFaculties;
 
+    //if user is teacher, his faculties
     @ManyToMany(mappedBy = "facultyTeachers", fetch = FetchType.LAZY)
     private List<Faculty> teachingFaculties;
 
+    //if user is org admin, his organizations
     @OneToMany(targetEntity = Organization.class, mappedBy = "adminOrg", cascade = CascadeType.ALL)
     private List<Organization> organization;
 
+    //if user is student, his course, class
     @ManyToMany(mappedBy = "courseStudents", fetch = FetchType.LAZY)
     private List<Course> currentCourses;
+
+    //if user is teacher, his subjects
+    @ManyToMany(mappedBy = "subjectTeachers", fetch = FetchType.LAZY)
+    private List<Subject> teachesSubjects;
 }

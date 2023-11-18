@@ -1,10 +1,10 @@
 package com.edu.ruse.studypal.dtos;
 
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotBlank;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 /**
  * @author anniexp
@@ -13,18 +13,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Getter
 public class RegisterDto {
-    private Long user_id;
+   // private Long user_id;
 
-    @NotBlank
     @Size(max = 120)
-    @Column(nullable = false, length = 64, name = "password")
+    @JsonProperty("password")
     private String password;
 
     @Size(max = 20)
-    @Column(name = "username", unique = true, nullable = false, length = 20)
+    @JsonProperty("username")
     private String username;
 
-    @Column(name = "role", nullable = false)
+    @JsonProperty("role")
     private String role;
 }
