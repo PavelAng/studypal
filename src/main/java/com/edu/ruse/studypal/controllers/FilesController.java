@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,9 +29,16 @@ public class FilesController {
     private static final Logger LOGGER = LogManager.getLogger(FilesController.class);
     private final FileService fileService;
 
+//    @GetMapping
+//    public ResponseEntity<List<FileGetSlimDto>> getAllFiles(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
+//        return new ResponseEntity<>(fileService.getAllFiles(page), HttpStatus.OK);
+//    }
+
     @GetMapping
-    public ResponseEntity<List<FileGetSlimDto>> getAllFiles(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
-        return new ResponseEntity<>(fileService.getAllFiles(page), HttpStatus.OK);
+    public ModelAndView getAllFilles(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
+        ModelAndView getAllFiles = new ModelAndView();
+        getAllFiles.addObject("files", fileService.getAllFiles(page));
+        return getAllFiles;
     }
 
     @PostMapping

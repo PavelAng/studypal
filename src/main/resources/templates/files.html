@@ -1,35 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="files.css">
     <title>File Management</title>
 </head>
 <body>
+<h1>File Management</h1>
 
-<header>
-    <h1>File Management</h1>
-</header>
+<!-- Form to upload a new file -->
+<form method="post" action="/files" enctype="multipart/form-data">
+    <label for="fileName">File Name:</label>
+    <input type="text" id="fileName" name="fileName" required><br><br>
 
-<main>
-    <section id="file-list">
-        <!-- Display files here -->
-    </section>
+    <label for="fileType">File Type:</label>
+    <input type="text" id="fileType" name="fileType" required><br><br>
 
-    <section id="file-upload">
-        <form id="upload-form">
-            <!-- File upload form -->
-            <label for="file">Choose a file:</label>
-            <input type="file" id="file" name="file" accept=".pdf, .doc, .docx">
-            <button type="submit">Upload</button>
-        </form>
-    </section>
-</main>
+    <label for="fileContent">Choose File:</label>
+    <input type="file" id="fileContent" name="fileContent" required><br><br>
 
-<footer>
-    <p>&copy; StudyPal File System</p>
-</footer>
+    <button type="submit">Upload File</button>
+</form>
 
+<hr>
+
+<!-- Display list of files available for download -->
+<h2>List of Files</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>File ID</th>
+        <th>File Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate through the list of files -->
+    <tr th:each="file : ${files}">
+        <td th:text="${file.fileId}"></td>
+        <td th:text="${file.fileName}"></td>
+        <td>
+            <!-- Download file link -->
+            <a th:href="@{'/files/' + ${file.fileId}/download}">Download</a>
+
+            <!-- Open file link -->
+            <a th:href="@{'/files/' + ${file.fileId}/open}">Open</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
