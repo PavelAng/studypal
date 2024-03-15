@@ -11,22 +11,17 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("subjects")
-@Controller
-@RestController
+@RequestMapping("subjects") // Define the base path for all mappings inside this controller
+@Controller // This indicates that the class serves the role of a controller
 public class SubjectsController {
 
-   /* @GetMapping("/subjects")
-    public String subjects() {
-
-        return "subjects.html";
-    }*/
-   private static final Logger LOGGER = LogManager.getLogger(SubjectsController.class);
+    private static final Logger LOGGER = LogManager.getLogger(SubjectsController.class);
     private final SubjectService subjectService;
 
     @PostMapping
@@ -37,56 +32,58 @@ public class SubjectsController {
         return new ResponseEntity<>(body, httpStatus);
     }
 
+    // Method to return JSON list of all subjects
+    @GetMapping("/list")
+    public ResponseEntity<List<SubjectGetDto>> getAllSubjectsJson(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
+        List<SubjectGetDto> subjects = subjectService.getAllSubjects(page);
+        return ResponseEntity.ok(subjects);
+    }
+
+    // Method to return the subjects view
     @GetMapping
-    public List<SubjectGetDto> getAllSubjects(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
-        return subjectService.getAllSubjects(page);
+    public String getAllSubjectsView(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
+        List<SubjectGetDto> subjects = subjectService.getAllSubjects(page);
+        model.addAttribute("subjects", subjects);
+        return "subjects"; // Name of the Thymeleaf template
     }
 
     @GetMapping("{id}")
-    public SubjectGetDto getSubjectById(@PathVariable("id") long id, @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
-        SubjectGetDto res = subjectService.getSubjectById(id);
-        if (res == null) {
+    public ResponseEntity<SubjectGetDto> getSubjectById(@PathVariable("id") long id) {
+        try {
+            SubjectGetDto subject = subjectService.getSubjectById(id);
+            return ResponseEntity.ok(subject);
+        } catch (EntityNotFoundException e) {
             LOGGER.info("Subject with id {} was not found, returning 404.", id);
-            throw new NotFoundOrganizationException("Subject with id " + id + " was not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
-        return res;
     }
 
     @PutMapping("{id}")
-    public SubjectGetDto updateSubject(@PathVariable("id") long id, @RequestBody SubjectPostDto subjectPostDto) {
+    public ResponseEntity<SubjectGetDto> updateSubject(@PathVariable("id") long id, @RequestBody SubjectPostDto subjectPostDto) {
         try {
-            return subjectService.updateSubject(id, subjectPostDto);
+            SubjectGetDto updatedSubject = subjectService.updateSubject(id, subjectPostDto);
+            return ResponseEntity.ok(updatedSubject);
         } catch (EntityNotFoundException e) {
             LOGGER.debug("Subject with id {} was not found, caught exception {}", id, e);
-            LOGGER.debug("Cause :", e);
-            throw new NotFoundOrganizationException("Subject not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteSubject(@PathVariable("id") long id) {
-        HttpStatus status = HttpStatus.GONE;
         try {
             subjectService.deleteSubject(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (EntityNotFoundException e) {
             LOGGER.debug("Subject with id {} was not found, caught exception {}", id, e);
-            LOGGER.debug("Cause :", e);
-            throw new NotFoundOrganizationException("Subject not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
-        return new ResponseEntity<>(status);
     }
 
-    //to do
-    //1 - make a get all student's course's subjects - done
-    //2 - make a get all teachers reached subjects - done
-    //3 - make  only teachers who teach a subject to be able to create-edit-delete events - done
-    //4 - make a get all events for logged user - done
     @GetMapping("/userSubjects")
-    public List<SubjectGetDto> getUserSubjects(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
-        return subjectService.getUserSubjects(page);
+    public ResponseEntity<List<SubjectGetDto>> getUserSubjects(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
+        List<SubjectGetDto> subjects = subjectService.getUserSubjects(page);
+        return ResponseEntity.ok(subjects);
     }
 
 }

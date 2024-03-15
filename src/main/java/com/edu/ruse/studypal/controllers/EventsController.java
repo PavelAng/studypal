@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,20 +30,13 @@ import java.util.stream.Collectors;
 @Controller
 @RestController
 public class EventsController {
-    /*@GetMapping("/events")
+    @GetMapping("/events")
     public String showEvents(Model model) {
 
-        List<String> subjects = Arrays.asList("Math", "basic of c++");
-        model.addAttribute("subjects", subjects);
 
-        List<String> homework = Arrays.asList("Math homework", "basic of c++ task");
-        model.addAttribute("homework", homework);
-
-        List<String> exams = Arrays.asList("Math exam", "basic of c++ test");
-        model.addAttribute("exams", exams);
 
         return "events";
-    }*/
+    }
     private static final Logger LOGGER = LogManager.getLogger(SubjectsController.class);
     private final EventService eventService;
 

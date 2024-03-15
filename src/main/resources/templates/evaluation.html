@@ -1,27 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" type="text/css" href="/header.css">
-<link rel="stylesheet" type="text/css" href="/index.css">
-<link rel="stylesheet" type="text/css" href="/footer.css">
 <head>
   <meta charset="UTF-8">
-  <title>StudyPal - Evaluation Notebook</title>
-  <link rel="stylesheet" href="/evaluation.css">
+  <title>Evaluation</title>
+  <link rel="stylesheet" type="text/css" href="/css/evaluation.css">
 </head>
 <body>
-<div th:replace="header :: header"></div>
-<div th:replace="footer :: footer"></div>
-<div class="container">
-  <h1>Evaluation Notebook</h1>
-  <table>
-    <thead>
-    <tr>
-      <th>Date</th>
-      <th>Course</th>
-      <th>Grade</th>
-    </tr>
-  </table>
-</div>
+<div th:replace="fragments/header :: header"></div>
+<main>
+  <section>
+    <h2>Your Grades:</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>Course</th>
+        <th>Grade</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="grade : ${grades}">
+        <td th:text="${grade.courseName}">Course Name</td>
+        <td th:text="${grade.value}">Grade</td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

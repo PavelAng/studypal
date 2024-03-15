@@ -11,14 +11,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 /**
  * @author anniexp
  */
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("faculties")
 public class FacultiesController {
@@ -34,9 +37,12 @@ public class FacultiesController {
     }
 
     @GetMapping
-    public List<FacultyGetDto> getAllFaculties(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
-        return facultyService.getAllFaculties(page);
+    public ModelAndView getAllFaculty(@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
+        ModelAndView mav = new ModelAndView("faculties"); // Use the name of your list template
+        mav.addObject("faculties", facultyService.getAllFaculties(page));
+        return mav;
     }
+
 
     @GetMapping("{id}")
     public FacultyGetDto getFacultyById(@PathVariable("id") long id, @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
